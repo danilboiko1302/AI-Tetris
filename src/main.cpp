@@ -1,10 +1,10 @@
 #include <iostream>
 #include "Game.h"
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    std::cout << "!!!!!!!!!!!!!!" << std::endl;
+    srand(time(0));
     Game* a = new Game();
-    cout<<a->ar.max_size()<<endl;
-    cout<<a->ar.size()<<endl;
+    a->seeBord();
+
+
     return 0;
 }
