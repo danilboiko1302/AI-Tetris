@@ -3,4 +3,4 @@ project(AI_Tetris)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(AI_Tetris src/main.cpp src/Shape.cpp src/Shape.h)
+add_executable(AI_Tetris src/main.cpp src/Shape.cpp src/Shape.h src/Game.cpp src/Game.h)

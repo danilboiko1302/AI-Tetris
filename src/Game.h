@@ -4,7 +4,7 @@
 
 #ifndef AI_TETRIS_GAME_H
 #define AI_TETRIS_GAME_H
-#include<array>
+#include "Shape.h"
 #include<iostream>
 #include <random>
 #include <ctime>
@@ -14,7 +14,24 @@ public:
     Game(): ar(){
         addShape();
     }
-
+    void moveLeft(){
+        for(int i : *current->current){
+            ar.at(i) = false;
+        }
+        current->moveLeft();
+        for(int i : *current->current){
+            ar.at(i) = true;
+        }
+    }
+    void moveRight(){
+        for(int i : *current->current){
+            ar.at(i) = false;
+        }
+        current->moveRight();
+        for(int i : *current->current){
+            ar.at(i) = true;
+        }
+    }
     void seeBord(){
         for(int i = 0; i < ar.max_size(); ++i){
             if(i%10==0){
@@ -25,10 +42,10 @@ public:
     }
 
 private:
-    array<int, 4> *current{};
+    Shape *current;
     array<bool,120> ar;
     void addShapeOnBoard(){
-        for(int i : *current){
+        for(int i : *current->current){
             ar.at(i) = true;
         }
     }
@@ -36,30 +53,31 @@ private:
         rand();
         rand();
         rand();
-        switch (3) {
+        switch (rand()%7) {
             case 0:
-                current = new array<int, 4>{4, 5, 14, 15};
-                addShapeOnBoard();
+                current = new O();
                 break;
             case 1:
-                current = new array<int, 4>{4, 14, 24, 34};
-                addShapeOnBoard();
+                current = new I();
                 break;
             case 2:
-                current = new array<int, 4>{3, 13, 14, 15};
-                addShapeOnBoard();
+                current = new L();
                 break;
             case 3:
-                current = new array<int, 4>{5, 13, 14, 15};
-                addShapeOnBoard();
+                current = new J();
                 break;
             case 4:
+                current = new S();
                 break;
             case 5:
+                current = new Z();
                 break;
             case 6:
+                current = new T();
+
                 break;
         };
+        addShapeOnBoard();
     }
 };
 
