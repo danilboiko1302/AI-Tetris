@@ -5,6 +5,7 @@ Testing
 Makefile
 CMakeLists.txt
 cmake-build-debug
+.idea
 cmake_install.cmake
 install_manifest.txt
 compile_commands.json
