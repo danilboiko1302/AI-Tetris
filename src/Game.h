@@ -31,8 +31,13 @@ public:
                     moveDown();
                     if(!addShape()){
                         gameOver = true;
+                        cout<< "You lose" << endl;
                     }
-                    cout<< "You lose" << endl;
+                    break;
+                case 'w':
+                    turnShape();
+                    break;
+                default:
                     break;
 
             }
@@ -40,6 +45,18 @@ public:
 
 
 
+    }
+    void turnShape(){
+        if(canTurnShape()){
+            removeShape();
+            current->moveLeft();
+            seeShape();
+        }
+
+    }
+    bool canTurnShape(){
+        bool res = true;
+        return res;
     }
     void moveLeft(){
         removeShape();
@@ -78,9 +95,14 @@ public:
         }
     }
     void destroyLine(int line){
-        //TODO 
+
         for(int j = 0; j < 10; ++j){
             ar.at(line * 10 + j) = false;
+        }
+        for(int i = line - 1; i >= 0 ; --i){
+            for(int j = 0; j < 10; ++j){
+                ar.at((i + 1) * 10 + j) = ar.at(i * 10 + j);
+            }
         }
     }
 
@@ -89,7 +111,7 @@ public:
         for(int i : *currentArr){
             if (find(std::begin(*currentArr), end(*currentArr), i + 10) == end(*currentArr)){
 
-                if( i + 10 >= 120  || ar.at(i + 10) ){
+                if( i + 10 >= size * 10  || ar.at(i + 10) ){
                     isPossible = false;
                     break;
                 }
@@ -120,9 +142,10 @@ public:
     }
 
 private:
+    static const unsigned int size = 10;
     Shape *current;
     array<int, 4> *currentArr;
-    array<bool,120> ar;
+    array<bool, (size * 10)> ar;
     void addShapeOnBoard(){
         for(int i : *currentArr){
             ar.at(i) = true;

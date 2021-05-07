@@ -52,8 +52,6 @@ public:
     O(){
         current = {4, 5, 14, 15};
     }
-      void turn() {
-     };
      array<int, 4> isTurnPossible () override{
          array<int, 4> r = {};
          return r;
@@ -66,8 +64,6 @@ public:
     I(){
         current = {4, 14, 24, 34};
     }
-    void turn() {
-    };
     array<int, 4> isTurnPossible () override{
         array<int, 4> r = {};
         return r;
@@ -80,8 +76,6 @@ public:
     L(){
         current = {5, 13, 14, 15};
     }
-    void turn() {
-    };
     array<int, 4> isTurnPossible () override{
         array<int, 4> r = {};
         return r;
@@ -93,8 +87,6 @@ public:
     J(){
         current = {5, 13, 14, 15};
     }
-    void turn() {
-    };
     array<int, 4> isTurnPossible () override{
         array<int, 4> r = {};
         return r;
@@ -106,8 +98,6 @@ public:
     S(){
         current = {4, 5, 13, 14};
     }
-    void turn() {
-    };
     array<int, 4> isTurnPossible () override{
         array<int, 4> r = {};
         return r;
@@ -118,8 +108,6 @@ public:
     Z(){
         current = {4, 5, 15, 16};
     }
-    void turn() {
-    };
     array<int, 4> isTurnPossible () override{
         array<int, 4> r = {};
         return r;
@@ -130,8 +118,6 @@ public:
     T(){
         current = {4, 13, 14, 15};
     }
-    void turn() {
-    };
     array<int, 4> isTurnPossible () override{
         array<int, 4> r = {};
         return r;

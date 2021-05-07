@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Game.h"
 #include <cstdlib>
-#include <conio.h>
+
 void test(){
     Game* a = new Game();
 //    a->seeBord();
