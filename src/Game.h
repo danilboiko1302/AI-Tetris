@@ -47,17 +47,23 @@ public:
 
     }
     void turnShape(){
-        if(canTurnShape()){
-            removeShape();
-            current->moveLeft();
-            seeShape();
+        removeShape();
+        auto newShape = current->isTurnPossible();
+        for(int i :  newShape){
+            if(ar.at(i)){
+                seeShape();
+                return;
+            }
         }
+        currentArr->at(0) = newShape.at(0);
+        currentArr->at(1) = newShape.at(1);
+        currentArr->at(2) = newShape.at(2);
+        currentArr->at(3) = newShape.at(3);
+        current->rotate();
+        seeShape();
 
     }
-    bool canTurnShape(){
-        bool res = true;
-        return res;
-    }
+
     void moveLeft(){
         removeShape();
         current->moveLeft();
@@ -155,7 +161,10 @@ private:
         rand();
         rand();
         rand();
-        switch (rand()%7) {
+        rand();
+        rand();
+        rand();
+        switch (6) {
             case 0:
                 current = new O();
                 break;

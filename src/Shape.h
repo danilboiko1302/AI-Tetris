@@ -8,7 +8,7 @@
 using namespace std;
 class Shape {
 public:
-    int state = 0;
+    unsigned char state = 0;
     mutable array<int, 4> current  ;
     virtual array<int, 4> isTurnPossible() = 0;
     void moveLeft() const {
@@ -45,6 +45,10 @@ public:
             i+=10;
         }
     };
+
+    void rotate() {
+        state++;
+    }
 };
 
 class O: public Shape {
@@ -53,8 +57,8 @@ public:
         current = {4, 5, 14, 15};
     }
      array<int, 4> isTurnPossible () override{
-         array<int, 4> r = {};
-         return r;
+
+         return current;
      };
 
 };
@@ -65,7 +69,24 @@ public:
         current = {4, 14, 24, 34};
     }
     array<int, 4> isTurnPossible () override{
-        array<int, 4> r = {};
+        array<int, 4> r{};
+        switch (state%4) {
+            case 0:
+                r = {current.at(0) + 18,current.at(1) + 9, current.at(2), current.at(3) - 9 };
+                break;
+            case 1:
+                r = {current.at(0) - 19,current.at(1) - 10, current.at(2) - 1, current.at(3) + 8 };
+                break;
+            case 2:
+                r = {current.at(0) +9,current.at(1), current.at(2) - 9, current.at(3) - 18 };
+                break;
+            case 3:
+                r = {current.at(0) - 8,current.at(1) + 1, current.at(2) + 10, current.at(3) + 19 };
+                break;
+            default:
+                r = {};
+                break;
+        }
         return r;
     };
 
@@ -74,10 +95,28 @@ public:
 class L: public Shape {
 public:
     L(){
-        current = {5, 13, 14, 15};
+        current = {5, 15, 14, 13};
+
     }
     array<int, 4> isTurnPossible () override{
-        array<int, 4> r = {};
+        array<int, 4> r{};
+        switch (state%4) {
+            case 0:
+                r = {current.at(0) + 20,current.at(1) + 9, current.at(2), current.at(3) - 9 };
+                break;
+            case 1:
+                r = {current.at(0) - 2 ,current.at(1) - 11, current.at(2), current.at(3) + 11 };
+                break;
+            case 2:
+                r = {current.at(0) - 20,current.at(1) - 9, current.at(2), current.at(3) + 9 };
+                break;
+            case 3:
+                r = {current.at(0) + 2,current.at(1) + 11, current.at(2), current.at(3) - 11 };
+                break;
+            default:
+                r = {};
+                break;
+        }
         return r;
     };
 };
@@ -85,10 +124,28 @@ public:
 class J: public Shape {
 public:
     J(){
-        current = {5, 13, 14, 15};
+
+        current = {3, 13, 14, 15};
     }
     array<int, 4> isTurnPossible () override{
-        array<int, 4> r = {};
+        array<int, 4> r{};
+        switch (state%4) {
+            case 0:
+                r = {current.at(0) + 2,current.at(1) - 9, current.at(2), current.at(3) + 9 };
+                break;
+            case 1:
+                r = {current.at(0) + 20,current.at(1) + 11, current.at(2), current.at(3) - 11 };
+                break;
+            case 2:
+                r = {current.at(0) - 2,current.at(1) + 9, current.at(2), current.at(3) - 9 };
+                break;
+            case 3:
+                r = {current.at(0) - 20,current.at(1) - 11, current.at(2), current.at(3) + 11 };
+                break;
+            default:
+                r = {};
+                break;
+        }
         return r;
     };
 };
@@ -96,10 +153,27 @@ public:
 class S: public Shape {
 public:
     S(){
-        current = {4, 5, 13, 14};
+        current = {5, 4, 14, 13};
     }
     array<int, 4> isTurnPossible () override{
-        array<int, 4> r = {};
+        array<int, 4> r{};
+        switch (state%4) {
+            case 0:
+                r = {current.at(0) + 20,current.at(1) + 11, current.at(2), current.at(3) - 9 };
+                break;
+            case 1:
+                r = {current.at(0) - 2 ,current.at(1) + 9, current.at(2), current.at(3) + 11 };
+                break;
+            case 2:
+                r = {current.at(0) - 20,current.at(1) - 11, current.at(2), current.at(3) + 9 };
+                break;
+            case 3:
+                r = {current.at(0) + 2,current.at(1) - 9, current.at(2), current.at(3) - 11 };
+                break;
+            default:
+                r = {};
+                break;
+        }
         return r;
     };
 };
@@ -110,6 +184,23 @@ public:
     }
     array<int, 4> isTurnPossible () override{
         array<int, 4> r = {};
+        switch (state%4) {
+            case 0:
+                r = {current.at(0) + 2,current.at(1) + 11, current.at(2), current.at(3) + 9 };
+                break;
+            case 1:
+                r = {current.at(0) + 20,current.at(1) + 9, current.at(2), current.at(3) - 11 };
+                break;
+            case 2:
+                r = {current.at(0) - 2,current.at(1) - 11, current.at(2), current.at(3) - 9 };
+                break;
+            case 3:
+                r = {current.at(0) - 20,current.at(1) - 9, current.at(2), current.at(3) + 11 };
+                break;
+            default:
+                r = {};
+                break;
+        }
         return r;
     };
 };
@@ -120,6 +211,23 @@ public:
     }
     array<int, 4> isTurnPossible () override{
         array<int, 4> r = {};
+        switch (state%4) {
+            case 0:
+                r = {current.at(0) + 11,current.at(1) - 9, current.at(2), current.at(3) + 9 };
+                break;
+            case 1:
+                r = {current.at(0) + 9,current.at(1) + 11, current.at(2), current.at(3) - 11 };
+                break;
+            case 2:
+                r = {current.at(0) - 11,current.at(1) + 9, current.at(2), current.at(3) - 9 };
+                break;
+            case 3:
+                r = {current.at(0) - 9,current.at(1) - 11, current.at(2), current.at(3) + 11 };
+                break;
+            default:
+                r = {};
+                break;
+        }
         return r;
     };
 };
