@@ -13,22 +13,98 @@ class Game {
 public:
     Game(): ar(){
         addShape();
+        bool gameOver = false;
+        while (!gameOver){
+            seeBord();
+            char b;
+            cout  << "Choose move: " <<endl;
+            cin >> b;
+            cout  << b <<endl;
+            switch(b){
+                case  'd':
+                    moveRight();
+                    break;
+                case  'a':
+                    moveLeft();
+                    break;
+                case  's':
+                    moveDown();
+                    if(!addShape()){
+                        gameOver = true;
+                    }
+                    cout<< "You lose" << endl;
+                    break;
+
+            }
+        }
+
+
+
     }
     void moveLeft(){
-        for(int i : *current->current){
-            ar.at(i) = false;
-        }
+        removeShape();
         current->moveLeft();
-        for(int i : *current->current){
-            ar.at(i) = true;
+        seeShape();
+    }
+    void moveDown(){
+        bool canMove = true;
+        while(canMove){
+            canMove = checkMoveDown();
+            if(canMove){
+                removeShape();
+                current->moveDown();
+                seeShape();
+            }
+        }
+        destroyLine();
+    }
+
+    void moveRight(){
+        removeShape();
+        current->moveRight();
+        seeShape();
+    }
+    void destroyLine(){
+        for(int i = 0; i < ar.size() / 10; ++i){
+            bool line = true;
+            for(int j = 0; j < 10; ++j){
+                line = line && ar.at(i * 10 + j);
+            }
+            if(line){
+                destroyLine(i);
+                destroyLine();
+                break;
+            }
         }
     }
-    void moveRight(){
-        for(int i : *current->current){
+    void destroyLine(int line){
+        //TODO 
+        for(int j = 0; j < 10; ++j){
+            ar.at(line * 10 + j) = false;
+        }
+    }
+
+    bool checkMoveDown(){
+        bool isPossible = true;
+        for(int i : *currentArr){
+            if (find(std::begin(*currentArr), end(*currentArr), i + 10) == end(*currentArr)){
+
+                if( i + 10 >= 120  || ar.at(i + 10) ){
+                    isPossible = false;
+                    break;
+                }
+            }
+
+        }
+        return isPossible;
+    }
+    void removeShape(){
+        for(int i : *currentArr){
             ar.at(i) = false;
         }
-        current->moveRight();
-        for(int i : *current->current){
+    }
+    void seeShape(){
+        for(int i : *currentArr){
             ar.at(i) = true;
         }
     }
@@ -38,14 +114,17 @@ public:
                 cout<<endl;
             }
             cout<<ar.at(i);
+
         }
+        cout << endl;
     }
 
 private:
     Shape *current;
+    array<int, 4> *currentArr;
     array<bool,120> ar;
     void addShapeOnBoard(){
-        for(int i : *current->current){
+        for(int i : *currentArr){
             ar.at(i) = true;
         }
     }
@@ -74,10 +153,31 @@ private:
                 break;
             case 6:
                 current = new T();
-
                 break;
-        };
+        }
+
+        currentArr = &current->current;
+        for(int i : *currentArr){
+            if(ar.at(i)){
+                return false;
+            }
+        }
+
+//        for(int i : current->current){
+//            cout<< i << endl;
+//        }
+//        for(int i : *currentArr){
+//            cout<< i << endl;
+//        }
+//        current->current.at(0) = 0;
+//        for(int i : current->current){
+//            cout<< i << endl;
+//        }
+//        for(int i : *currentArr){
+//            cout<< i << endl;
+//        }
         addShapeOnBoard();
+        return true;
     }
 };
 

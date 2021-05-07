@@ -9,35 +9,40 @@ using namespace std;
 class Shape {
 public:
     int state = 0;
-    array<int, 4> *current;
+    mutable array<int, 4> current  ;
     virtual array<int, 4> isTurnPossible() = 0;
     void moveLeft() const {
         bool isPossible = true;
-        for(int i = 0; i < current->size(); ++i){
-            if(current->at(i)%10 == 0){
+        for(int i : current){
+            if(i%10 == 0){
                 isPossible = false;
                 break;
             }
 
         }
         if(isPossible){
-            for(int i = 0; i < current->size(); ++i){
-                current->at(i)--;
+            for(int & i : current){
+                i--;
             }
         }
     };
     void moveRight() const{
         bool isPossible = true;
-        for(int i = 0; i < current->size(); ++i){
-            if(current->at(i)%10 == 9){
+        for(int i : current){
+            if(i%10 == 9){
                 isPossible = false;
                 break;
             }
         }
         if(isPossible){
-            for(int i = 0; i < current->size(); ++i){
-                current->at(i)++;
+            for(int & i : current){
+                i++;
             }
+        }
+    };
+    void moveDown() const{
+        for(int & i : current){
+            i+=10;
         }
     };
 };
@@ -45,7 +50,7 @@ public:
 class O: public Shape {
 public:
     O(){
-        current = new array<int, 4>{4, 5, 14, 15};
+        current = {4, 5, 14, 15};
     }
       void turn() {
      };
@@ -59,7 +64,7 @@ public:
 class I: public Shape {
 public:
     I(){
-        current = new array<int, 4>{4, 14, 24, 34};
+        current = {4, 14, 24, 34};
     }
     void turn() {
     };
@@ -73,7 +78,7 @@ public:
 class L: public Shape {
 public:
     L(){
-        current = new array<int, 4>{5, 13, 14, 15};
+        current = {5, 13, 14, 15};
     }
     void turn() {
     };
@@ -86,7 +91,7 @@ public:
 class J: public Shape {
 public:
     J(){
-        current = new array<int, 4>{5, 13, 14, 15};
+        current = {5, 13, 14, 15};
     }
     void turn() {
     };
@@ -99,7 +104,7 @@ public:
 class S: public Shape {
 public:
     S(){
-        current = new array<int, 4>{4, 5, 13, 14};
+        current = {4, 5, 13, 14};
     }
     void turn() {
     };
@@ -111,7 +116,7 @@ public:
 class Z: public Shape {
 public:
     Z(){
-        current = new array<int, 4>{4, 5, 15, 16};
+        current = {4, 5, 15, 16};
     }
     void turn() {
     };
@@ -123,7 +128,7 @@ public:
 class T: public Shape {
 public:
     T(){
-        current = new array<int, 4>{4, 13, 14, 15};
+        current = {4, 13, 14, 15};
     }
     void turn() {
     };
