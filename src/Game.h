@@ -164,7 +164,7 @@ private:
         rand();
         rand();
         rand();
-        switch (6) {
+        switch (rand()%7) {
             case 0:
                 current = new O();
                 break;
