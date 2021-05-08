@@ -31,6 +31,7 @@ public:
                     moveDown();
                     if(!addShape()){
                         gameOver = true;
+                        cout<< "Your score = " << score << endl;
                         cout<< "You lose" << endl;
                     }
                     break;
@@ -46,28 +47,77 @@ public:
 
 
     }
+
+
+private:
+    unsigned long long score = 0;
+    static const unsigned int size = 10;
+    Shape *current;
+    array<int, 4> *currentArr;
+    array<bool, (size * 10)> ar;
+    void addShapeOnBoard(){
+        for(int i : *currentArr){
+            ar.at(i) = true;
+        }
+    }
     void turnShape(){
         removeShape();
         auto newShape = current->isTurnPossible();
+        if(newShape == *currentArr){
+            seeShape();
+            return;
+        }
         for(int i :  newShape){
             if(ar.at(i)){
                 seeShape();
                 return;
             }
         }
-        currentArr->at(0) = newShape.at(0);
-        currentArr->at(1) = newShape.at(1);
-        currentArr->at(2) = newShape.at(2);
-        currentArr->at(3) = newShape.at(3);
+        for(int i = 0; i < 4; ++i)
+            currentArr->at(i) = newShape.at(i);
+
         current->rotate();
         seeShape();
 
     }
 
+    bool canMoveLeft(){
+        for(int i : *currentArr)
+            if(i%10 == 0)
+                return false;
+
+        array<int, 4> next = {};
+        for(int i = 0; i < 4; ++i)
+            next[i] = (*currentArr)[i] - 1;
+
+        for(int i : next)
+            if(ar.at(i))
+                if (find(std::begin(*currentArr), end(*currentArr), i ) == end(*currentArr))
+                    return false;
+        return true;
+    }
+    bool canMoveRight(){
+        for(int i : *currentArr)
+            if(i%10 == 9)
+                return false;
+
+        array<int, 4> next = {};
+        for(int i = 0; i < 4; ++i)
+            next[i] = (*currentArr)[i] + 1;
+
+        for(int i : next)
+            if(ar.at(i))
+                if (find(std::begin(*currentArr), end(*currentArr), i ) == end(*currentArr))
+                    return false;
+        return true;
+    }
     void moveLeft(){
-        removeShape();
-        current->moveLeft();
-        seeShape();
+        if(canMoveLeft()){
+            removeShape();
+            current->moveLeft();
+            seeShape();
+        }
+
     }
     void moveDown(){
         bool canMove = true;
@@ -79,15 +129,21 @@ public:
                 seeShape();
             }
         }
-        destroyLine();
+        int *lines = new int(0);
+        destroyLine(lines);
+        if(*lines != 0)
+            score += (*lines) * 200 - 100;
     }
 
     void moveRight(){
-        removeShape();
-        current->moveRight();
-        seeShape();
+        if(canMoveRight()) {
+            removeShape();
+            current->moveRight();
+            seeShape();
+        }
     }
-    void destroyLine(){
+    void destroyLine(int *lines){
+
         for(int i = 0; i < ar.size() / 10; ++i){
             bool line = true;
             for(int j = 0; j < 10; ++j){
@@ -95,7 +151,8 @@ public:
             }
             if(line){
                 destroyLine(i);
-                destroyLine();
+                (*lines)++;
+                destroyLine(lines);
                 break;
             }
         }
@@ -113,18 +170,13 @@ public:
     }
 
     bool checkMoveDown(){
-        bool isPossible = true;
-        for(int i : *currentArr){
-            if (find(std::begin(*currentArr), end(*currentArr), i + 10) == end(*currentArr)){
-
-                if( i + 10 >= size * 10  || ar.at(i + 10) ){
-                    isPossible = false;
-                    break;
+        for (int i : *currentArr)
+            if (find(std::begin(*currentArr), end(*currentArr), i + 10) == end(*currentArr)) {
+                if (i + 10 >= size * 10 || ar.at(i + 10)) {
+                    return false;
                 }
             }
-
-        }
-        return isPossible;
+        return true;
     }
     void removeShape(){
         for(int i : *currentArr){
@@ -146,17 +198,6 @@ public:
         }
         cout << endl;
     }
-
-private:
-    static const unsigned int size = 10;
-    Shape *current;
-    array<int, 4> *currentArr;
-    array<bool, (size * 10)> ar;
-    void addShapeOnBoard(){
-        for(int i : *currentArr){
-            ar.at(i) = true;
-        }
-    }
     bool addShape(){
         rand();
         rand();
@@ -164,7 +205,7 @@ private:
         rand();
         rand();
         rand();
-        switch (rand()%7) {
+        switch (6) {
             case 0:
                 current = new O();
                 break;

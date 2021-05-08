@@ -12,32 +12,13 @@ public:
     mutable array<int, 4> current  ;
     virtual array<int, 4> isTurnPossible() = 0;
     void moveLeft() const {
-        bool isPossible = true;
-        for(int i : current){
-            if(i%10 == 0){
-                isPossible = false;
-                break;
-            }
-
-        }
-        if(isPossible){
-            for(int & i : current){
-                i--;
-            }
+        for(int & i : current){
+            i--;
         }
     };
     void moveRight() const{
-        bool isPossible = true;
-        for(int i : current){
-            if(i%10 == 9){
-                isPossible = false;
-                break;
-            }
-        }
-        if(isPossible){
-            for(int & i : current){
-                i++;
-            }
+        for(int & i : current){
+            i++;
         }
     };
     void moveDown() const{
@@ -72,15 +53,27 @@ public:
         array<int, 4> r{};
         switch (state%4) {
             case 0:
+                if(current.at(0)%10 < 2 || current.at(1)%10 < 1 || current.at(3)%10 > 8){
+                    return current;
+                }
                 r = {current.at(0) + 18,current.at(1) + 9, current.at(2), current.at(3) - 9 };
                 break;
             case 1:
+                if(current.at(0)%10 == 9 || current.at(1) < 10  || current.at(2)%10 == 0 || current.at(3)%10 < 2){
+                    return current;
+                }
                 r = {current.at(0) - 19,current.at(1) - 10, current.at(2) - 1, current.at(3) + 8 };
                 break;
             case 2:
+                if(current.at(0)%10 == 0 ||  current.at(2)%10 == 9 || current.at(3)%10 > 7){
+                    return current;
+                }
                 r = {current.at(0) +9,current.at(1), current.at(2) - 9, current.at(3) - 18 };
                 break;
             case 3:
+                if(current.at(0)%10 > 7 || current.at(1) == 9   || current.at(3)%10 == 0){
+                    return current;
+                }
                 r = {current.at(0) - 8,current.at(1) + 1, current.at(2) + 10, current.at(3) + 19 };
                 break;
             default:
@@ -102,15 +95,27 @@ public:
         array<int, 4> r{};
         switch (state%4) {
             case 0:
+                if( current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                    return current;
+                }
                 r = {current.at(0) + 20,current.at(1) + 9, current.at(2), current.at(3) - 9 };
                 break;
             case 1:
+                if(current.at(0)%10 < 2 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                    return current;
+                }
                 r = {current.at(0) - 2 ,current.at(1) - 11, current.at(2), current.at(3) + 11 };
                 break;
             case 2:
+                if( current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                    return current;
+                }
                 r = {current.at(0) - 20,current.at(1) - 9, current.at(2), current.at(3) + 9 };
                 break;
             case 3:
+                if(current.at(0)%10 > 7 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                    return current;
+                }
                 r = {current.at(0) + 2,current.at(1) + 11, current.at(2), current.at(3) - 11 };
                 break;
             default:
@@ -131,15 +136,27 @@ public:
         array<int, 4> r{};
         switch (state%4) {
             case 0:
+                if(current.at(0)%10 > 7 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                    return current;
+                }
                 r = {current.at(0) + 2,current.at(1) - 9, current.at(2), current.at(3) + 9 };
                 break;
             case 1:
+                if( current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                    return current;
+                }
                 r = {current.at(0) + 20,current.at(1) + 11, current.at(2), current.at(3) - 11 };
                 break;
             case 2:
+                if(current.at(0)%10 < 2 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                    return current;
+                }
                 r = {current.at(0) - 2,current.at(1) + 9, current.at(2), current.at(3) - 9 };
                 break;
             case 3:
+                if(current.at(0) < 20 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                    return current;
+                }
                 r = {current.at(0) - 20,current.at(1) - 11, current.at(2), current.at(3) + 11 };
                 break;
             default:
@@ -159,15 +176,27 @@ public:
         array<int, 4> r{};
         switch (state%4) {
             case 0:
+                if( current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                    return current;
+                }
                 r = {current.at(0) + 20,current.at(1) + 11, current.at(2), current.at(3) - 9 };
                 break;
             case 1:
+                if(current.at(0)%10 < 2 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                    return current;
+                }
                 r = {current.at(0) - 2 ,current.at(1) + 9, current.at(2), current.at(3) + 11 };
                 break;
             case 2:
+                if(current.at(0) < 20 || current.at(1)%10 == 0   || current.at(3)%10 == 0){
+                    return current;
+                }
                 r = {current.at(0) - 20,current.at(1) - 11, current.at(2), current.at(3) + 9 };
                 break;
             case 3:
+                if(current.at(0)%10 > 7 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                    return current;
+                }
                 r = {current.at(0) + 2,current.at(1) - 9, current.at(2), current.at(3) - 11 };
                 break;
             default:
@@ -186,15 +215,27 @@ public:
         array<int, 4> r = {};
         switch (state%4) {
             case 0:
+                if(current.at(0)%10 > 7 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                    return current;
+                }
                 r = {current.at(0) + 2,current.at(1) + 11, current.at(2), current.at(3) + 9 };
                 break;
             case 1:
+                if( current.at(1)%10 == 0   || current.at(3)%10 == 0){
+                    return current;
+                }
                 r = {current.at(0) + 20,current.at(1) + 9, current.at(2), current.at(3) - 11 };
                 break;
             case 2:
+                if(current.at(0)%10 < 2 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                    return current;
+                }
                 r = {current.at(0) - 2,current.at(1) - 11, current.at(2), current.at(3) - 9 };
                 break;
             case 3:
+                if(current.at(0) < 20 || current.at(1)%10 == 9 || current.at(3)%10 == 9){
+                    return current;
+                }
                 r = {current.at(0) - 20,current.at(1) - 9, current.at(2), current.at(3) + 11 };
                 break;
             default:
@@ -213,15 +254,27 @@ public:
         array<int, 4> r = {};
         switch (state%4) {
             case 0:
+                if(current.at(0)%10 == 9 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                    return current;
+                }
                 r = {current.at(0) + 11,current.at(1) - 9, current.at(2), current.at(3) + 9 };
                 break;
             case 1:
+                if(current.at(0)%10 == 0 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                    return current;
+                }
                 r = {current.at(0) + 9,current.at(1) + 11, current.at(2), current.at(3) - 11 };
                 break;
             case 2:
+                if(current.at(0)%10 == 0 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                    return current;
+                }
                 r = {current.at(0) - 11,current.at(1) + 9, current.at(2), current.at(3) - 9 };
                 break;
             case 3:
+                if(current.at(0)%10 == 9 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                    return current;
+                }
                 r = {current.at(0) - 9,current.at(1) - 11, current.at(2), current.at(3) + 11 };
                 break;
             default:
