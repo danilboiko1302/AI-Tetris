@@ -5,6 +5,7 @@
 #ifndef AI_TETRIS_GAME_H
 #define AI_TETRIS_GAME_H
 #include "Shape.h"
+
 #include<iostream>
 #include <random>
 #include <ctime>
@@ -131,8 +132,7 @@ private:
         }
         int *lines = new int(0);
         destroyLine(lines);
-        if(*lines != 0)
-            score += (*lines) * 200 - 100;
+        score += (*lines);
     }
 
     void moveRight(){
@@ -199,13 +199,17 @@ private:
         cout << endl;
     }
     bool addShape(){
-        rand();
-        rand();
-        rand();
-        rand();
-        rand();
-        rand();
-        switch (6) {
+        std:: minstd_rand simple_rand;
+
+        // Use simple_rand.seed() instead of srand():
+        simple_rand.seed(time(0));
+
+        // Use simple_rand() instead of rand():
+        for (int i = 0; i < 10; ++i)
+        {
+            simple_rand();
+        }
+        switch (simple_rand()%7) {
             case 0:
                 current = new O();
                 break;
