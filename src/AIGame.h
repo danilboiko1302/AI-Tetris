@@ -13,6 +13,9 @@ public:
     AIGame(): test(2) {
 
     }
+    void play() override{
+
+    }
 };
 
 

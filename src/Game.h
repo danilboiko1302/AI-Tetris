@@ -13,6 +13,10 @@ using namespace std;
 class Game {
 public:
     Game(): ar(){
+
+    }
+
+    virtual void play(){
         addShape();
         bool gameOver = false;
         while (!gameOver){
@@ -44,9 +48,6 @@ public:
 
             }
         }
-
-
-
     }
 
 

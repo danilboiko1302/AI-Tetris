@@ -12,7 +12,7 @@ class AI {
 public:
     AI():
     hole(50), height(50), moreThan3Holes(50), sonsAmount(50), step(50){};
-    explicit AI(const unsigned int son, const unsigned int hole, const unsigned int height, const unsigned int moreThan3Holes, const unsigned int step):
+    explicit AI(const  int son, const  int hole, const  int height, const  int moreThan3Holes, const  int step):
     hole(hole), height(height), moreThan3Holes(moreThan3Holes), sonsAmount(son), step(step){
 
     };
@@ -29,33 +29,52 @@ public:
     };
     void start(){
         createSons();
-
+        sonsPlay();
     }
 
 private:
-    unsigned int sonsAmount;
-    unsigned int hole;
-    unsigned int height;
-    unsigned int moreThan3Holes;
-    unsigned int step;
+     int sonsAmount;
+     int hole;
+     int height;
+     int moreThan3Holes;
+     int step;
+     int score = 0;
+     void sonsPlay(){
+         for(size_t i = 0; i < sons->sizes(); ++i ){
+             AIGame * game = new AIGame();
+         }
+     }
     void createSons(){
+        minstd_rand simple_rand;
+        simple_rand.seed(time(0));
         while(sons->sizes() != sonsAmount){
-            minstd_rand simple_rand;
-            simple_rand.seed(time(0));
-            sons->add(AI(1,1,1,1));
+            int newHole = (hole + static_cast<int>(simple_rand()%(step + 1)) - static_cast<int>(step/2));
+            int newHeight = height + static_cast<int>(simple_rand()%(step + 1)) - static_cast<int>(step/2);
+            int newHoles = moreThan3Holes + static_cast<int>(simple_rand()%(step + 1)) - static_cast<int>(step/2);
+            if(newHole < 0)
+                newHole = 0;
+            if(newHeight < 0)
+                newHeight = 0;
+            if(newHoles < 0)
+                newHoles = 0;
+            if(newHole > 100)
+                newHole = 100;
+            if(newHeight > 100)
+                newHeight = 100;
+            if(newHoles > 100)
+                newHoles = 100;
+            sons->add(AI(newHole,newHeight,newHoles));
         }
 
 
 
-        for (int ii = 0; ii < 10; ++ii)
-        {
-            std::cout << simple_rand() << '\n';
-        }
+
         for(size_t i = 0; i < sons->sizes(); ++i ){
+            std::cout << i<< '\n';
             (*sons)[i].show();
         }
     }
-    void show(){
+    void show() const{
         cout<<"AI: " << sonsAmount << " "<< hole << " "<< height << " "<< moreThan3Holes << " "<< step << " " <<endl;
     }
     AI(const AI& copy):
@@ -65,8 +84,8 @@ private:
             (*sons)[i] = (*(copy.sons))[i];
         }
     };
-    AI(const unsigned int sons, const unsigned int hole, const unsigned int height, const unsigned int moreThan3Holes):
-            hole(hole), height(height), moreThan3Holes(moreThan3Holes), sonsAmount(sons), step(0){
+    AI( const  int hole, const  int height, const  int moreThan3Holes):
+            hole(hole), height(height), moreThan3Holes(moreThan3Holes), sonsAmount(0), step(0){
 
     };
     Sequence<AI> * sons = new Sequence<AI>;;
