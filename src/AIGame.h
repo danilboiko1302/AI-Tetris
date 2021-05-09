@@ -8,13 +8,11 @@
 
 class AIGame : public Game{
 public:
-    int test;
-
-    AIGame(): test(2) {
-
-    }
     void play() override{
-
+        addShape();
+    }
+    auto getBord(){
+        return ar;
     }
 };
 

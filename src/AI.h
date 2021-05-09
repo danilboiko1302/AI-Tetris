@@ -42,8 +42,42 @@ private:
      void sonsPlay(){
          for(size_t i = 0; i < sons->sizes(); ++i ){
              AIGame * game = new AIGame();
+             Sequence<array<bool, Game::size*10>> * positions = new Sequence<array<bool, Game::size*10>>;
+             game->play();
+             goToLeftSide(*game);
+             array<bool, Game::size*10> bord{};
+             array<bool, Game::size*10> newBord{};
+             game->seeBord();
+             do{
+                 positions->add(game->getBord());
+                 bord = game->getBord();
+                 game->moveRight();
+                 newBord = game->getBord();
+             } while (bord != newBord);
+             for(int j =0; j<positions->sizes(); ++j ){
+                 for(int k = 0; k < (*positions)[j].max_size(); ++k){
+                     if(k%10==0){
+                         cout<<endl;
+                     }
+                     cout<<(*positions)[j].at(k);
+
+                 }
+                 cout << endl;
+
+             }
          }
      }
+     static void goToLeftSide(AIGame& game){
+         array<bool, Game::size*10> bord{};
+         array<bool, Game::size*10> newBord{};
+
+         do{
+             bord = game.getBord();
+             game.moveLeft();
+             newBord = game.getBord();
+         } while (bord != newBord);
+     }
+
     void createSons(){
         minstd_rand simple_rand;
         simple_rand.seed(time(0));

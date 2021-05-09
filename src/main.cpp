@@ -64,10 +64,10 @@ int go() {
     return 0;
 }
 void test(){
-    Game* a = new Game();
-    a->play();
-   // AI* b = new AI(5,50,50,50,10);
-    //b->start();
+    //Game* a = new Game();
+    //a->play();
+    AI* b = new AI(1,50,50,50,10);
+    b->start();
 //    a->seeBord();
 //    a->moveRight();
 //    cout<<endl;

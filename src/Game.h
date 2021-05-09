@@ -51,12 +51,38 @@ public:
     }
 
 
+    void moveLeft(){
+        if(canMoveLeft()){
+            removeShape();
+            current->moveLeft();
+            seeShape();
+        }
+
+    }
+    void moveRight(){
+        if(canMoveRight()) {
+            removeShape();
+            current->moveRight();
+            seeShape();
+        }
+    }
+    void seeBord(){
+        for(int i = 0; i < ar.max_size(); ++i){
+            if(i%10==0){
+                cout<<endl;
+            }
+            cout<<ar.at(i);
+
+        }
+        cout << endl;
+    }
+    static constexpr  unsigned int size = 10;
+
 private:
     unsigned long long score = 0;
-    static const unsigned int size = 10;
     Shape *current;
     array<int, 4> *currentArr;
-    array<bool, (size * 10)> ar;
+
     void addShapeOnBoard(){
         for(int i : *currentArr){
             ar.at(i) = true;
@@ -113,14 +139,7 @@ private:
                     return false;
         return true;
     }
-    void moveLeft(){
-        if(canMoveLeft()){
-            removeShape();
-            current->moveLeft();
-            seeShape();
-        }
 
-    }
     void moveDown(){
         bool canMove = true;
         while(canMove){
@@ -136,13 +155,7 @@ private:
         score += (*lines);
     }
 
-    void moveRight(){
-        if(canMoveRight()) {
-            removeShape();
-            current->moveRight();
-            seeShape();
-        }
-    }
+
     void destroyLine(int *lines){
 
         for(int i = 0; i < ar.size() / 10; ++i){
@@ -189,28 +202,16 @@ private:
             ar.at(i) = true;
         }
     }
-    void seeBord(){
-        for(int i = 0; i < ar.max_size(); ++i){
-            if(i%10==0){
-                cout<<endl;
-            }
-            cout<<ar.at(i);
 
-        }
-        cout << endl;
-    }
+
+protected:
     bool addShape(){
-        std:: minstd_rand simple_rand;
-
-        // Use simple_rand.seed() instead of srand():
-        simple_rand.seed(time(0));
-
-        // Use simple_rand() instead of rand():
-        for (int i = 0; i < 10; ++i)
-        {
-            simple_rand();
-        }
-        switch (simple_rand()%7) {
+        rand();
+        rand();
+        rand();
+        rand();
+        rand();
+        switch (rand()%7) {
             case 0:
                 current = new O();
                 break;
@@ -257,6 +258,8 @@ private:
         addShapeOnBoard();
         return true;
     }
+
+    array<bool, (size * 10)> ar;
 };
 
 
