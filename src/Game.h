@@ -50,7 +50,25 @@ public:
         }
     }
 
+    void turnShape(){
+        removeShape();
+        auto newShape = current->isTurnPossible();
+        if(newShape == *currentArr){
+            seeShape();
+            return;
+        }
+        for(int i :  newShape){
+            if(ar.at(i)){
+                seeShape();
+                return;
+            }
+        }
+        for(int i = 0; i < 4; ++i)
+            currentArr->at(i) = newShape.at(i);
 
+        current->rotate();
+        seeShape();
+    }
     void moveLeft(){
         if(canMoveLeft()){
             removeShape();
@@ -78,36 +96,15 @@ public:
     }
     static constexpr  unsigned int size = 10;
 
-private:
     unsigned long long score = 0;
     Shape *current;
-    array<int, 4> *currentArr;
 
     void addShapeOnBoard(){
         for(int i : *currentArr){
             ar.at(i) = true;
         }
     }
-    void turnShape(){
-        removeShape();
-        auto newShape = current->isTurnPossible();
-        if(newShape == *currentArr){
-            seeShape();
-            return;
-        }
-        for(int i :  newShape){
-            if(ar.at(i)){
-                seeShape();
-                return;
-            }
-        }
-        for(int i = 0; i < 4; ++i)
-            currentArr->at(i) = newShape.at(i);
 
-        current->rotate();
-        seeShape();
-
-    }
 
     bool canMoveLeft(){
         for(int i : *currentArr)
@@ -260,6 +257,7 @@ protected:
     }
 
     array<bool, (size * 10)> ar;
+    array<int, 4> *currentArr;
 };
 
 

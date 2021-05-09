@@ -14,6 +14,25 @@ public:
     auto getBord(){
         return ar;
     }
+    auto getShape(){
+        return currentArr;
+    }
+    auto nextMoveDown(){
+        auto prev = ar;
+        bool canMove = true;
+        while(canMove){
+            canMove = checkMoveDown();
+            if(canMove){
+                removeShape();
+                current->moveDown();
+                seeShape();
+            }
+        }
+        auto next = ar;
+        ar = prev;
+        return next;
+    }
+
 };
 
 

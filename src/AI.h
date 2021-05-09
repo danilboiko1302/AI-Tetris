@@ -41,32 +41,98 @@ private:
      int score = 0;
      void sonsPlay(){
          for(size_t i = 0; i < sons->sizes(); ++i ){
-             AIGame * game = new AIGame();
-             Sequence<array<bool, Game::size*10>> * positions = new Sequence<array<bool, Game::size*10>>;
+             auto *game = new AIGame();
+             auto *positions = new Sequence<array<int, 4>>;
              game->play();
              goToLeftSide(*game);
-             array<bool, Game::size*10> bord{};
-             array<bool, Game::size*10> newBord{};
-             game->seeBord();
-             do{
-                 positions->add(game->getBord());
-                 bord = game->getBord();
-                 game->moveRight();
-                 newBord = game->getBord();
-             } while (bord != newBord);
-             for(int j =0; j<positions->sizes(); ++j ){
-                 for(int k = 0; k < (*positions)[j].max_size(); ++k){
-                     if(k%10==0){
-                         cout<<endl;
-                     }
-                     cout<<(*positions)[j].at(k);
 
+             array<int, 4> bord{};
+             array<int, 4> newBord{};
+             do{
+                 positions->add(*(game->getShape()));
+                 //game->seeBord();
+                 bord = *(game->getShape());
+                 game->moveRight();
+                 newBord = *(game->getShape());
+             } while (bord != newBord);
+
+             for(int j = 0; j < 3; ++j ){
+
+               //game->seeBord();
+                 if(turn(*game)){
+                     //game->seeBord();
+                     do{
+                         if(!positions->contains(*(game->getShape())))
+                             positions->add(*(game->getShape()));
+                         bord = *(game->getShape());
+                         game->moveRight();
+                         newBord = *(game->getShape());
+                     } while (bord != newBord);
+                 } else{
+                     break;
                  }
-                 cout << endl;
 
              }
+             auto *positionsBord = new Sequence<array<bool, Game::size * 10>>;
+             //game->seeBord();
+
+             for(int j =0; j<positions->sizes(); ++j ){
+                 if(j != 0){
+                     *game->getShape() = (*positions)[j - 1];
+                 }
+                 game->removeShape();
+                 *game->getShape() = (*positions)[j];
+                 game->seeShape();
+                 positionsBord->add(game->nextMoveDown());
+                 //game->seeBord();
+             }
+             for(int j =0; j<positionsBord->sizes(); ++j ){
+                 seeBord((*positionsBord)[j]);
+             }
+             game->seeBord();
+             //TODO Count score for bord
+//             cout<<positions->sizes()<<endl;
+//             for(int j =0; j<positions->sizes(); ++j ){
+//                 for(int k = 0; k < (*positions)[j].max_size(); ++k)
+//                     cout<<(*positions)[j].at(k) << endl;
+//                 cout << endl;
+//             }
          }
+
      }
+
+    static void seeBord(array<bool, Game::size * 10> ar){
+        for(int i = 0; i < ar.max_size(); ++i){
+            if(i%10==0){
+                cout<<endl;
+            }
+            cout<<ar.at(i);
+
+        }
+        cout << endl;
+    }
+    static bool turn(AIGame& game){
+        goToLeftSide(game);
+        auto startPos = *game.getShape();
+        auto nextPos = *game.getShape();
+        do{
+            game.turnShape();
+            nextPos = *game.getShape();
+            if(startPos == nextPos){
+                game.moveRight();
+                nextPos = *game.getShape();
+                if(startPos == nextPos){
+                    return false;
+                }else{
+                    startPos = *game.getShape();
+                }
+            } else{
+                goToLeftSide(game);
+                return true;
+            }
+
+        } while(true);
+    }
      static void goToLeftSide(AIGame& game){
          array<bool, Game::size*10> bord{};
          array<bool, Game::size*10> newBord{};
