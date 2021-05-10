@@ -11,7 +11,7 @@ public:
     void play() override{
         addShape();
     }
-    auto getBord(){
+    auto getBoard(){
         return ar;
     }
     auto getShape(){

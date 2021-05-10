@@ -20,7 +20,7 @@ public:
         addShape();
         bool gameOver = false;
         while (!gameOver){
-            seeBord();
+            seeBoard();
             char b;
             cout  << "Choose move: " <<endl;
             cin >> b;
@@ -84,7 +84,7 @@ public:
             seeShape();
         }
     }
-    void seeBord(){
+    void seeBoard(){
         for(int i = 0; i < ar.max_size(); ++i){
             if(i%10==0){
                 cout<<endl;

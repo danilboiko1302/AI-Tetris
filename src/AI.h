@@ -46,35 +46,35 @@ private:
              game->play();
              goToLeftSide(*game);
 
-             array<int, 4> bord{};
-             array<int, 4> newBord{};
+             array<int, 4> board{};
+             array<int, 4> newBoard{};
              do{
                  positions->add(*(game->getShape()));
-                 //game->seeBord();
-                 bord = *(game->getShape());
+                 //game->seeBoard();
+                 board = *(game->getShape());
                  game->moveRight();
-                 newBord = *(game->getShape());
-             } while (bord != newBord);
+                 newBoard = *(game->getShape());
+             } while (board != newBoard);
 
              for(int j = 0; j < 3; ++j ){
 
-               //game->seeBord();
+               //game->seeBoard();
                  if(turn(*game)){
-                     //game->seeBord();
+                     //game->seeBoard();
                      do{
                          if(!positions->contains(*(game->getShape())))
                              positions->add(*(game->getShape()));
-                         bord = *(game->getShape());
+                         board = *(game->getShape());
                          game->moveRight();
-                         newBord = *(game->getShape());
-                     } while (bord != newBord);
+                         newBoard = *(game->getShape());
+                     } while (board != newBoard);
                  } else{
                      break;
                  }
 
              }
-             auto *positionsBord = new Sequence<array<bool, Game::size * 10>>;
-             //game->seeBord();
+             auto *positionsBoard = new Sequence<array<bool, Game::size * 10>>;
+             //game->seeBoard();
 
              for(int j =0; j<positions->sizes(); ++j ){
                  if(j != 0){
@@ -83,25 +83,44 @@ private:
                  game->removeShape();
                  *game->getShape() = (*positions)[j];
                  game->seeShape();
-                 positionsBord->add(game->nextMoveDown());
-                 //game->seeBord();
+                 positionsBoard->add(game->nextMoveDown());
+                 //game->seeBoard();
              }
-             for(int j =0; j<positionsBord->sizes(); ++j ){
-                 seeBord((*positionsBord)[j]);
-             }
-             game->seeBord();
-             //TODO Count score for bord
-//             cout<<positions->sizes()<<endl;
+//             for(int j =0; j<positionsBoard->sizes(); ++j ){
+//                 seeBoard((*positionsBoard)[j]);
+//             }
+            // game->seeBoard();
+
+
 //             for(int j =0; j<positions->sizes(); ++j ){
 //                 for(int k = 0; k < (*positions)[j].max_size(); ++k)
 //                     cout<<(*positions)[j].at(k) << endl;
 //                 cout << endl;
 //             }
+             auto * scores = new Sequence<int>;
+             for(int j =0; j<positionsBoard->sizes(); ++j ){
+                 scores->add(scoreBoard((*positionsBoard)[j], (*sons)[i].hole, (*sons)[i].height, (*sons)[i].moreThan3Holes));
+             }
+
          }
 
      }
+     static int scoreBoard(array<bool, Game::size * 10> ar, int hole, int height, int more3){
 
-    static void seeBord(array<bool, Game::size * 10> ar){
+         return countHoles(ar) * hole + countHeight(ar) * height + countColumns(ar) * more3;
+     }
+
+    static int countHoles(array<bool, Game::size * 10> ar){
+        return 0;
+     }
+    static int countHeight(array<bool, Game::size * 10> ar){
+        return 0;
+    }
+    static int countColumns(array<bool, Game::size * 10> ar){
+        return 0;
+    }
+
+    static void seeBoard(array<bool, Game::size * 10> ar){
         for(int i = 0; i < ar.max_size(); ++i){
             if(i%10==0){
                 cout<<endl;
@@ -134,14 +153,14 @@ private:
         } while(true);
     }
      static void goToLeftSide(AIGame& game){
-         array<bool, Game::size*10> bord{};
-         array<bool, Game::size*10> newBord{};
+         array<bool, Game::size*10> board{};
+         array<bool, Game::size*10> newBoard{};
 
          do{
-             bord = game.getBord();
+             board = game.getBoard();
              game.moveLeft();
-             newBord = game.getBord();
-         } while (bord != newBord);
+             newBoard = game.getBoard();
+         } while (board != newBoard);
      }
 
     void createSons(){
