@@ -36,12 +36,12 @@ void test() {
         cout<<endl;
         cout<<endl;
         cout<<endl;
-//        myfile << "Max " << max <<endl;
-//        myfile<< "Holes "<< aR <<endl;
-//        myfile<< "Height "<< bR <<endl;
-//        myfile<< "Columns "<< cR <<endl;
-//        myfile<< "Destroy "<< dR <<endl;
-//        myfile <<endl;
+        myfile << "Max " << max <<endl;
+        myfile<< "Holes "<< aR <<endl;
+        myfile<< "Height "<< bR <<endl;
+        myfile<< "Columns "<< cR <<endl;
+        myfile<< "Destroy "<< dR <<endl;
+        myfile <<endl;
         cout << "MAx " << max <<endl;
         cout<< "a "<< aR <<endl;
         cout<< "b "<< bR <<endl;
