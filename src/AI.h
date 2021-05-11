@@ -14,10 +14,10 @@ using namespace std;
 class AI {
 public:
     AI() :
-            hole(50), height(50), moreThan3Holes(50), sonsAmount(50), step(50) {};
+            hole(50), height(50), moreThan3Holes(50), sonsAmount(50), destroy(50), step(50) {};
 
-    explicit AI(const int son, const int hole, const int height, const int moreThan3Holes, const int step) :
-            hole(hole), height(height), moreThan3Holes(moreThan3Holes), sonsAmount(son), step(step) {
+    explicit AI(const int son, const int hole, const int height, const int moreThan3Holes, const int destroy, const int step) :
+            hole(hole), height(height), moreThan3Holes(moreThan3Holes), sonsAmount(son), destroy(destroy),step(step) {
 
     };
 
@@ -43,6 +43,7 @@ private:
     int height;
     int moreThan3Holes;
     int step;
+    int destroy;
     int score = 0;
 
     unsigned long long sonsPlay() {
@@ -117,7 +118,7 @@ private:
                 auto *scores = new Sequence<int>;
                 //game->seeBoard();
                 for(int j =0; j<positionsBoard->sizes(); ++j ){
-                    scores->add(scoreBoard((*positionsBoard)[j], (*sons)[i].hole, (*sons)[i].height, (*sons)[i].moreThan3Holes));
+                    scores->add(scoreBoard((*positionsBoard)[j], (*sons)[i].hole, (*sons)[i].height, (*sons)[i].moreThan3Holes,(*sons)[i].destroy));
                 }
                 int min = (*scores)[0];
                 for(int j = 1; j<scores->sizes(); ++j ){
@@ -145,9 +146,9 @@ private:
                 //game->seeBoard();
                 if(game->addShape()){
                     game->seeShape();
-                    if(game->score > 10){
-                        cout<<"!!!!Score is " << game->score << endl;
-                    }
+//                    if(game->score > 10){
+//                        cout<<"!!!!Score is " << game->score << endl;
+//                    }
 
 
                     //game->seeBoard();
@@ -180,9 +181,24 @@ private:
 
     }
 
-    static int scoreBoard(array<bool, Game::size * 10> ar, int hole, int height, int more3) {
+    static int scoreBoard(array<bool, Game::size * 10> ar, int hole, int height, int more3, int dest) {
 
-        return countHoles(ar) * hole + countHeight(ar) * height + countColumns(ar) * more3;
+        return countHoles(ar) * hole + countHeight(ar) * height + countColumns(ar) * more3 - countDestroy(ar) * dest;
+    }
+    static int countDestroy(array<bool, Game::size * 10> ar){
+        int res = 0;
+        for (int i = 0; i < ar.size() / 10; ++i){
+            bool line = true;
+            for (int j = 0; j <  10; ++j){
+                line = line && ar.at(i * 10 + j);
+            }
+            if(line){
+                res++;
+                //seeBoard(ar);
+            }
+
+        }
+        return res;
     }
 
     static int countHoles(array<bool, Game::size * 10> ar) {
