@@ -20,7 +20,17 @@ public:
     auto getShape() {
         return currentArr;
     }
-
+    auto getShapeClass() {
+        return current;
+    }
+    void setBoard(array<bool, Game::size * 10> newAr){
+        ar = newAr;
+    }
+    void destroyLine(){
+        int *lines = new int(0);
+        Game::destroyLine(lines);
+        score += (*lines);
+    }
     auto nextMoveDown() {
         auto prev = ar;
         bool canMove = true;

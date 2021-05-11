@@ -11,7 +11,7 @@ using namespace std;
 
 class Shape {
 public:
-    unsigned char state = 0;
+    unsigned int state = 0;
     mutable array<int, 4> current;
 
     virtual array<int, 4> isTurnPossible() = 0;
