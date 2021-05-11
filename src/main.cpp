@@ -1,6 +1,7 @@
 #include <iostream>
 #include "AI.h"
 #include <cstdlib>
+
 int go() {
     try {
         cout << "-----------------------------" << endl;
@@ -53,20 +54,23 @@ int go() {
         cout << "sequence.clear();" << endl;
         sequence.clear().show();
 
-        cout << "If we will try to do something wrong\nFor example we will try to insert Elem on pos -1 or remove Elem with bad pos\nWe will get error" << endl;
+        cout
+                << "If we will try to do something wrong\nFor example we will try to insert Elem on pos -1 or remove Elem with bad pos\nWe will get error"
+                << endl;
         sequence.remove(0);
     }
-    catch (const Sequence<int>::BadSeq& x) {
+    catch (const Sequence<int>::BadSeq &x) {
 
         x.diagnose();
     }
 
     return 0;
 }
-void test(){
+
+void test() {
     //Game* a = new Game();
     //a->play();
-    AI* b = new AI(1,50,50,50,10);
+    AI *b = new AI(1, 50, 50, 50, 10);
     b->start();
 //    a->seeBord();
 //    a->moveRight();

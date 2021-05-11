@@ -4,25 +4,29 @@
 
 #ifndef AI_TETRIS_AIGAME_H
 #define AI_TETRIS_AIGAME_H
+
 #include "Game.h"
 
-class AIGame : public Game{
+class AIGame : public Game {
 public:
-    void play() override{
+    void play() override {
         addShape();
     }
-    auto getBoard(){
+
+    auto getBoard() {
         return ar;
     }
-    auto getShape(){
+
+    auto getShape() {
         return currentArr;
     }
-    auto nextMoveDown(){
+
+    auto nextMoveDown() {
         auto prev = ar;
         bool canMove = true;
-        while(canMove){
+        while (canMove) {
             canMove = checkMoveDown();
-            if(canMove){
+            if (canMove) {
                 removeShape();
                 current->moveDown();
                 seeShape();
@@ -34,8 +38,6 @@ public:
     }
 
 };
-
-
 
 
 #endif //AI_TETRIS_AIGAME_H

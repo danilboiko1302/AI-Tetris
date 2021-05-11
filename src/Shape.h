@@ -4,26 +4,33 @@
 
 #ifndef AI_TETRIS_SHAPE_H
 #define AI_TETRIS_SHAPE_H
+
 #include<array>
+
 using namespace std;
+
 class Shape {
 public:
     unsigned char state = 0;
-    mutable array<int, 4> current  ;
+    mutable array<int, 4> current;
+
     virtual array<int, 4> isTurnPossible() = 0;
+
     void moveLeft() const {
-        for(int & i : current){
+        for (int &i : current) {
             i--;
         }
     };
-    void moveRight() const{
-        for(int & i : current){
+
+    void moveRight() const {
+        for (int &i : current) {
             i++;
         }
     };
-    void moveDown() const{
-        for(int & i : current){
-            i+=10;
+
+    void moveDown() const {
+        for (int &i : current) {
+            i += 10;
         }
     };
 
@@ -32,49 +39,52 @@ public:
     }
 };
 
-class O: public Shape {
+class O : public Shape {
 public:
-    O(){
+    O() {
         current = {4, 5, 14, 15};
     }
-     array<int, 4> isTurnPossible () override{
 
-         return current;
-     };
+    array<int, 4> isTurnPossible() override {
+
+        return current;
+    };
 
 };
 
-class I: public Shape {
+class I : public Shape {
 public:
-    I(){
+    I() {
         current = {4, 14, 24, 34};
     }
-    array<int, 4> isTurnPossible () override{
+
+    array<int, 4> isTurnPossible() override {
         array<int, 4> r{};
-        switch (state%4) {
+        switch (state % 4) {
             case 0:
-                if(current.at(0)%10 < 2 || current.at(1)%10 < 1 || current.at(3)%10 > 8){
+                if (current.at(0) % 10 < 2 || current.at(1) % 10 < 1 || current.at(3) % 10 > 8) {
                     return current;
                 }
-                r = {current.at(0) + 18,current.at(1) + 9, current.at(2), current.at(3) - 9 };
+                r = {current.at(0) + 18, current.at(1) + 9, current.at(2), current.at(3) - 9};
                 break;
             case 1:
-                if(current.at(0)%10 == 9 || current.at(1) < 10  || current.at(2)%10 == 0 || current.at(3)%10 < 2){
+                if (current.at(0) % 10 == 9 || current.at(1) < 10 || current.at(2) % 10 == 0 ||
+                    current.at(3) % 10 < 2) {
                     return current;
                 }
-                r = {current.at(0) - 19,current.at(1) - 10, current.at(2) - 1, current.at(3) + 8 };
+                r = {current.at(0) - 19, current.at(1) - 10, current.at(2) - 1, current.at(3) + 8};
                 break;
             case 2:
-                if(current.at(0)%10 == 0 ||  current.at(2)%10 == 9 || current.at(3)%10 > 7){
+                if (current.at(0) % 10 == 0 || current.at(2) % 10 == 9 || current.at(3) % 10 > 7) {
                     return current;
                 }
-                r = {current.at(0) +9,current.at(1), current.at(2) - 9, current.at(3) - 18 };
+                r = {current.at(0) + 9, current.at(1), current.at(2) - 9, current.at(3) - 18};
                 break;
             case 3:
-                if(current.at(0)%10 > 7 || current.at(1) == 9   || current.at(3)%10 == 0){
+                if (current.at(0) % 10 > 7 || current.at(1) == 9 || current.at(3) % 10 == 0) {
                     return current;
                 }
-                r = {current.at(0) - 8,current.at(1) + 1, current.at(2) + 10, current.at(3) + 19 };
+                r = {current.at(0) - 8, current.at(1) + 1, current.at(2) + 10, current.at(3) + 19};
                 break;
             default:
                 r = {};
@@ -85,38 +95,39 @@ public:
 
 };
 
-class L: public Shape {
+class L : public Shape {
 public:
-    L(){
+    L() {
         current = {5, 15, 14, 13};
 
     }
-    array<int, 4> isTurnPossible () override{
+
+    array<int, 4> isTurnPossible() override {
         array<int, 4> r{};
-        switch (state%4) {
+        switch (state % 4) {
             case 0:
-                if( current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                if (current.at(1) % 10 == 0 || current.at(3) % 10 == 9) {
                     return current;
                 }
-                r = {current.at(0) + 20,current.at(1) + 9, current.at(2), current.at(3) - 9 };
+                r = {current.at(0) + 20, current.at(1) + 9, current.at(2), current.at(3) - 9};
                 break;
             case 1:
-                if(current.at(0)%10 < 2 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                if (current.at(0) % 10 < 2 || current.at(1) % 10 == 0 || current.at(3) % 10 == 9) {
                     return current;
                 }
-                r = {current.at(0) - 2 ,current.at(1) - 11, current.at(2), current.at(3) + 11 };
+                r = {current.at(0) - 2, current.at(1) - 11, current.at(2), current.at(3) + 11};
                 break;
             case 2:
-                if( current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                if (current.at(1) % 10 == 9 || current.at(3) % 10 == 0) {
                     return current;
                 }
-                r = {current.at(0) - 20,current.at(1) - 9, current.at(2), current.at(3) + 9 };
+                r = {current.at(0) - 20, current.at(1) - 9, current.at(2), current.at(3) + 9};
                 break;
             case 3:
-                if(current.at(0)%10 > 7 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                if (current.at(0) % 10 > 7 || current.at(1) % 10 == 9 || current.at(3) % 10 == 0) {
                     return current;
                 }
-                r = {current.at(0) + 2,current.at(1) + 11, current.at(2), current.at(3) - 11 };
+                r = {current.at(0) + 2, current.at(1) + 11, current.at(2), current.at(3) - 11};
                 break;
             default:
                 r = {};
@@ -126,38 +137,39 @@ public:
     };
 };
 
-class J: public Shape {
+class J : public Shape {
 public:
-    J(){
+    J() {
 
         current = {3, 13, 14, 15};
     }
-    array<int, 4> isTurnPossible () override{
+
+    array<int, 4> isTurnPossible() override {
         array<int, 4> r{};
-        switch (state%4) {
+        switch (state % 4) {
             case 0:
-                if(current.at(0)%10 > 7 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                if (current.at(0) % 10 > 7 || current.at(1) % 10 == 9 || current.at(3) % 10 == 0) {
                     return current;
                 }
-                r = {current.at(0) + 2,current.at(1) - 9, current.at(2), current.at(3) + 9 };
+                r = {current.at(0) + 2, current.at(1) - 9, current.at(2), current.at(3) + 9};
                 break;
             case 1:
-                if( current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                if (current.at(1) % 10 == 9 || current.at(3) % 10 == 0) {
                     return current;
                 }
-                r = {current.at(0) + 20,current.at(1) + 11, current.at(2), current.at(3) - 11 };
+                r = {current.at(0) + 20, current.at(1) + 11, current.at(2), current.at(3) - 11};
                 break;
             case 2:
-                if(current.at(0)%10 < 2 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                if (current.at(0) % 10 < 2 || current.at(1) % 10 == 0 || current.at(3) % 10 == 9) {
                     return current;
                 }
-                r = {current.at(0) - 2,current.at(1) + 9, current.at(2), current.at(3) - 9 };
+                r = {current.at(0) - 2, current.at(1) + 9, current.at(2), current.at(3) - 9};
                 break;
             case 3:
-                if(current.at(0) < 20 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                if (current.at(0) < 20 || current.at(1) % 10 == 0 || current.at(3) % 10 == 9) {
                     return current;
                 }
-                r = {current.at(0) - 20,current.at(1) - 11, current.at(2), current.at(3) + 11 };
+                r = {current.at(0) - 20, current.at(1) - 11, current.at(2), current.at(3) + 11};
                 break;
             default:
                 r = {};
@@ -167,37 +179,38 @@ public:
     };
 };
 
-class S: public Shape {
+class S : public Shape {
 public:
-    S(){
+    S() {
         current = {5, 4, 14, 13};
     }
-    array<int, 4> isTurnPossible () override{
+
+    array<int, 4> isTurnPossible() override {
         array<int, 4> r{};
-        switch (state%4) {
+        switch (state % 4) {
             case 0:
-                if( current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                if (current.at(1) % 10 == 0 || current.at(3) % 10 == 9) {
                     return current;
                 }
-                r = {current.at(0) + 20,current.at(1) + 11, current.at(2), current.at(3) - 9 };
+                r = {current.at(0) + 20, current.at(1) + 11, current.at(2), current.at(3) - 9};
                 break;
             case 1:
-                if(current.at(0)%10 < 2 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                if (current.at(0) % 10 < 2 || current.at(1) % 10 == 0 || current.at(3) % 10 == 9) {
                     return current;
                 }
-                r = {current.at(0) - 2 ,current.at(1) + 9, current.at(2), current.at(3) + 11 };
+                r = {current.at(0) - 2, current.at(1) + 9, current.at(2), current.at(3) + 11};
                 break;
             case 2:
-                if(current.at(0) < 20 || current.at(1)%10 == 0   || current.at(3)%10 == 0){
+                if (current.at(0) < 20 || current.at(1) % 10 == 0 || current.at(3) % 10 == 0) {
                     return current;
                 }
-                r = {current.at(0) - 20,current.at(1) - 11, current.at(2), current.at(3) + 9 };
+                r = {current.at(0) - 20, current.at(1) - 11, current.at(2), current.at(3) + 9};
                 break;
             case 3:
-                if(current.at(0)%10 > 7 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                if (current.at(0) % 10 > 7 || current.at(1) % 10 == 9 || current.at(3) % 10 == 0) {
                     return current;
                 }
-                r = {current.at(0) + 2,current.at(1) - 9, current.at(2), current.at(3) - 11 };
+                r = {current.at(0) + 2, current.at(1) - 9, current.at(2), current.at(3) - 11};
                 break;
             default:
                 r = {};
@@ -206,37 +219,39 @@ public:
         return r;
     };
 };
-class Z: public Shape {
+
+class Z : public Shape {
 public:
-    Z(){
+    Z() {
         current = {4, 5, 15, 16};
     }
-    array<int, 4> isTurnPossible () override{
+
+    array<int, 4> isTurnPossible() override {
         array<int, 4> r = {};
-        switch (state%4) {
+        switch (state % 4) {
             case 0:
-                if(current.at(0)%10 > 7 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                if (current.at(0) % 10 > 7 || current.at(1) % 10 == 9 || current.at(3) % 10 == 0) {
                     return current;
                 }
-                r = {current.at(0) + 2,current.at(1) + 11, current.at(2), current.at(3) + 9 };
+                r = {current.at(0) + 2, current.at(1) + 11, current.at(2), current.at(3) + 9};
                 break;
             case 1:
-                if( current.at(1)%10 == 0   || current.at(3)%10 == 0){
+                if (current.at(1) % 10 == 0 || current.at(3) % 10 == 0) {
                     return current;
                 }
-                r = {current.at(0) + 20,current.at(1) + 9, current.at(2), current.at(3) - 11 };
+                r = {current.at(0) + 20, current.at(1) + 9, current.at(2), current.at(3) - 11};
                 break;
             case 2:
-                if(current.at(0)%10 < 2 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                if (current.at(0) % 10 < 2 || current.at(1) % 10 == 0 || current.at(3) % 10 == 9) {
                     return current;
                 }
-                r = {current.at(0) - 2,current.at(1) - 11, current.at(2), current.at(3) - 9 };
+                r = {current.at(0) - 2, current.at(1) - 11, current.at(2), current.at(3) - 9};
                 break;
             case 3:
-                if(current.at(0) < 20 || current.at(1)%10 == 9 || current.at(3)%10 == 9){
+                if (current.at(0) < 20 || current.at(1) % 10 == 9 || current.at(3) % 10 == 9) {
                     return current;
                 }
-                r = {current.at(0) - 20,current.at(1) - 9, current.at(2), current.at(3) + 11 };
+                r = {current.at(0) - 20, current.at(1) - 9, current.at(2), current.at(3) + 11};
                 break;
             default:
                 r = {};
@@ -245,37 +260,39 @@ public:
         return r;
     };
 };
-class T: public Shape {
+
+class T : public Shape {
 public:
-    T(){
+    T() {
         current = {4, 13, 14, 15};
     }
-    array<int, 4> isTurnPossible () override{
+
+    array<int, 4> isTurnPossible() override {
         array<int, 4> r = {};
-        switch (state%4) {
+        switch (state % 4) {
             case 0:
-                if(current.at(0)%10 == 9 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                if (current.at(0) % 10 == 9 || current.at(1) % 10 == 9 || current.at(3) % 10 == 0) {
                     return current;
                 }
-                r = {current.at(0) + 11,current.at(1) - 9, current.at(2), current.at(3) + 9 };
+                r = {current.at(0) + 11, current.at(1) - 9, current.at(2), current.at(3) + 9};
                 break;
             case 1:
-                if(current.at(0)%10 == 0 || current.at(1)%10 == 9   || current.at(3)%10 == 0){
+                if (current.at(0) % 10 == 0 || current.at(1) % 10 == 9 || current.at(3) % 10 == 0) {
                     return current;
                 }
-                r = {current.at(0) + 9,current.at(1) + 11, current.at(2), current.at(3) - 11 };
+                r = {current.at(0) + 9, current.at(1) + 11, current.at(2), current.at(3) - 11};
                 break;
             case 2:
-                if(current.at(0)%10 == 0 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                if (current.at(0) % 10 == 0 || current.at(1) % 10 == 0 || current.at(3) % 10 == 9) {
                     return current;
                 }
-                r = {current.at(0) - 11,current.at(1) + 9, current.at(2), current.at(3) - 9 };
+                r = {current.at(0) - 11, current.at(1) + 9, current.at(2), current.at(3) - 9};
                 break;
             case 3:
-                if(current.at(0)%10 == 9 || current.at(1)%10 == 0   || current.at(3)%10 == 9){
+                if (current.at(0) % 10 == 9 || current.at(1) % 10 == 0 || current.at(3) % 10 == 9) {
                     return current;
                 }
-                r = {current.at(0) - 9,current.at(1) - 11, current.at(2), current.at(3) + 11 };
+                r = {current.at(0) - 9, current.at(1) - 11, current.at(2), current.at(3) + 11};
                 break;
             default:
                 r = {};
