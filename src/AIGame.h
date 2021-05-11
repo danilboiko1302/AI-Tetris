@@ -9,43 +9,19 @@
 
 class AIGame : public Game {
 public:
-    void play() override {
-        addShape();
-    }
+    void play() override;
 
-    auto getBoard() {
-        return ar;
-    }
+    array<bool, Game::size * 10> getBoard();
 
-    auto getShape() {
-        return currentArr;
-    }
-    auto getShapeClass() {
-        return current;
-    }
-    void setBoard(array<bool, Game::size * 10> newAr){
-        ar = newAr;
-    }
-    void destroyLine(){
-        int *lines = new int(0);
-        Game::destroyLine(lines);
-        score += (*lines);
-    }
-    auto nextMoveDown() {
-        auto prev = ar;
-        bool canMove = true;
-        while (canMove) {
-            canMove = checkMoveDown();
-            if (canMove) {
-                removeShape();
-                current->moveDown();
-                seeShape();
-            }
-        }
-        auto next = ar;
-        ar = prev;
-        return next;
-    }
+    array<int, 4> *getShape();
+
+    Shape *getShapeClass();
+
+    void setBoard(array<bool, Game::size * 10> newAr);
+
+    void destroyLine();
+
+    array<bool, Game::size * 10> nextMoveDown();
 
 };
 
