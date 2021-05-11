@@ -32,9 +32,9 @@ public:
         return *this;
     };
 
-    void start() {
+    unsigned long long start() {
         createSons();
-        sonsPlay();
+        return sonsPlay();
     }
 
 private:
@@ -45,57 +45,68 @@ private:
     int step;
     int score = 0;
 
-    void sonsPlay() {
+    unsigned long long sonsPlay() {
+        unsigned long long max = 0;
+        int newHole = 0;
+        int newHeight = 0;
+        int newColumns = 0;
         for (size_t i = 0; i < sons->sizes(); ++i) {
             auto *game = new AIGame();
-            auto *positions = new Sequence<array<int, 4>>;
             game->play();
-            goToLeftSide(*game);
+            while(true){
 
-            array<int, 4> board{};
-            array<int, 4> newBoard{};
-            do {
-                positions->add(*(game->getShape()));
-                //game->seeBoard();
-                board = *(game->getShape());
-                game->moveRight();
-                newBoard = *(game->getShape());
-            } while (board != newBoard);
+                auto *positions = new Sequence<array<int, 4>>;
 
-            for (int j = 0; j < 3; ++j) {
+                goToLeftSide(*game);
 
-                //game->seeBoard();
-                if (turn(*game)) {
+                array<int, 4> board{};
+                array<int, 4> newBoard{};
+                do {
+                    positions->add(*(game->getShape()));
                     //game->seeBoard();
-                    do {
-                        if (!positions->contains(*(game->getShape())))
-                            positions->add(*(game->getShape()));
-                        board = *(game->getShape());
-                        game->moveRight();
-                        newBoard = *(game->getShape());
-                    } while (board != newBoard);
-                } else {
-                    break;
-                }
+                    board = *(game->getShape());
+                    game->moveRight();
+                    newBoard = *(game->getShape());
+                } while (board != newBoard);
 
-            }
-            auto *positionsBoard = new Sequence<array<bool, Game::size * 10>>;
-            //game->seeBoard();
+                for (int j = 0; j < 3; ++j) {
 
-            for (int j = 0; j < positions->sizes(); ++j) {
-                if (j != 0) {
-                    *game->getShape() = (*positions)[j - 1];
+                    //game->seeBoard();
+                    if (turn(*game)) {
+                        //game->seeBoard();
+                        do {
+                            if (!positions->contains(*(game->getShape())))
+                                positions->add(*(game->getShape()));
+                            board = *(game->getShape());
+                            game->moveRight();
+                            newBoard = *(game->getShape());
+                        } while (board != newBoard);
+                    } else {
+                        break;
+                    }
+
                 }
                 game->removeShape();
-                *game->getShape() = (*positions)[j];
-                game->seeShape();
-                positionsBoard->add(game->nextMoveDown());
-                //game->seeBoard();
-            }
+                auto *positionsBoard = new Sequence<array<bool, Game::size * 10>>;
+
+
+                for (int j = 0; j < positions->sizes(); ++j) {
+                    if (j != 0) {
+                        *game->getShape() = (*positions)[j - 1];
+                    }
+                    game->removeShape();
+                    *game->getShape() = (*positions)[j];
+                    game->seeShape();
+                    positionsBoard->add(game->nextMoveDown());
+                    //game->seeBoard();
+                }
+
 //             for(int j =0; j<positionsBoard->sizes(); ++j ){
 //                 seeBoard((*positionsBoard)[j]);
 //             }
-            // game->seeBoard();
+                *game->getShape() = (*positions)[positions->sizes() - 1];
+                game->removeShape();
+
 
 
 //             for(int j =0; j<positions->sizes(); ++j ){
@@ -103,18 +114,69 @@ private:
 //                     cout<<(*positions)[j].at(k) << endl;
 //                 cout << endl;
 //             }
-            auto *scores = new Sequence<int>;
-            for (int j = 0; j < 1; ++j) {
-                seeBoard((*positionsBoard)[j]);
-                cout << countColumns((*positionsBoard)[j]) << endl;
+                auto *scores = new Sequence<int>;
+                //game->seeBoard();
+                for(int j =0; j<positionsBoard->sizes(); ++j ){
+                    scores->add(scoreBoard((*positionsBoard)[j], (*sons)[i].hole, (*sons)[i].height, (*sons)[i].moreThan3Holes));
+                }
+                int min = (*scores)[0];
+                for(int j = 1; j<scores->sizes(); ++j ){
+                    if((*scores)[j] < min){
+                        min = (*scores)[j];
+                    }
+                    //cout<< (*scores)[j] << endl;
+                }
+                //cout<< min << endl;
+                // game->seeBoard();
 
-                //scores->add(scoreBoard((*positionsBoard)[j], (*sons)[i].hole, (*sons)[i].height, (*sons)[i].moreThan3Holes));
+                for(int j = 0; j<scores->sizes(); ++j ){
+                    if((*scores)[j] == min){
+                        if (j != 0) {
+                            *game->getShape() = (*positions)[j - 1];
+                        }
+                        game->removeShape();
+                        *game->getShape() = (*positions)[j];
+                        game->moveDown();
+                        //game->seeBoard();
+                        break;
+                    }
+                    //cout<< (*scores)[j] << endl;
+                }
+                //game->seeBoard();
+                if(game->addShape()){
+                    game->seeShape();
+                    if(game->score > 10){
+                        cout<<"!!!!Score is " << game->score << endl;
+                    }
+
+
+                    //game->seeBoard();
+                } else{
+                    cout<<"Height is " << (*sons)[i].height<< endl;
+                    cout<<"hole is " << (*sons)[i].hole<< endl;
+                    cout<<"moreThan3Holes is " << (*sons)[i].moreThan3Holes<< endl;
+                    cout<<"Score is " << game->score<< endl;
+                    cout<< endl;
+                    cout<< endl;
+                    if(game->score > max){
+                        max = game->score;
+                        newHole = (*sons)[i].hole;
+                        newHeight = (*sons)[i].height;
+                        newColumns = (*sons)[i].moreThan3Holes;
+                    }
+                    break;
+                }
             }
-//             for(int j =0; j<positionsBoard->sizes(); ++j ){
-//                 scores->add(scoreBoard((*positionsBoard)[j], (*sons)[i].hole, (*sons)[i].height, (*sons)[i].moreThan3Holes));
-//             }
+
+
+
 
         }
+        cout<<"MAX Score is " << max<< endl;
+        return max;
+
+//        AI *next = new AI(10, newHole, newHeight, newColumns, this->step);
+//        next->start();
 
     }
 
@@ -150,13 +212,36 @@ private:
     }
 
     static int countColumns(array<bool, Game::size * 10> ar) {
-        int columns = 0;
+        int col = 0;
         for (int i = 0; i < 10; ++i) {
-            bool closed = false;
-            for (int j = i; j < ar.size(); j += 10)
-                cout << j << endl;
+            for (int j = i; j < ar.size(); j += 10) {
+                if (ar[j]) {
+                    break;
+                }
+                if (i == 0) {
+                    if (ar.at(j + 1)) {
+                        if (int(Game::size) - j / 10 > 3) {
+                            col += int(Game::size) - j / 10 - 3;
+                        }
+                    }
+                } else if (i == 9) {
+                    if (ar.at(j - 1)) {
+                        if (int(Game::size) - j / 10 > 3) {
+                            col += int(Game::size) - j / 10 - 3;
+                        }
+                    }
+                } else {
+                    if (ar.at(j - 1) && ar.at(j + 1)) {
+                        if (int(Game::size) - j / 10 > 3) {
+                            col += int(Game::size) - j / 10 - 3;
+                        }
+                        //cout<< Game::size  - j / 10<<endl;
+                    }
+                }
+                //cout<<j<<endl;
+            }
         }
-        return columns;
+        return col;
     }
 
     static void seeBoard(array<bool, Game::size * 10> ar) {
@@ -217,12 +302,12 @@ private:
                 newHeight = 0;
             if (newHoles < 0)
                 newHoles = 0;
-            if (newHole > 100)
-                newHole = 100;
-            if (newHeight > 100)
-                newHeight = 100;
-            if (newHoles > 100)
-                newHoles = 100;
+            if (newHole > 1000)
+                newHole = 1000;
+            if (newHeight > 1000)
+                newHeight = 1000;
+            if (newHoles > 1000)
+                newHoles = 1000;
             sons->add(AI(newHole, newHeight, newHoles));
         }
 

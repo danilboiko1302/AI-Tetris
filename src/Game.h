@@ -212,7 +212,6 @@ public:
     }
 
 
-protected:
     bool addShape() {
         rand();
         rand();
@@ -266,6 +265,8 @@ protected:
         addShapeOnBoard();
         return true;
     }
+
+protected:
 
     array<bool, (size * 10)> ar;
     array<int, 4> *currentArr;
