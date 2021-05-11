@@ -101,7 +101,7 @@ public:
         cout << endl;
     }
 
-    static constexpr unsigned int size = 10;
+    static constexpr unsigned int size = 20;
 
     unsigned long long score = 0;
     Shape *current;

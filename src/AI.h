@@ -146,12 +146,12 @@ private:
                     }
                     //cout<< (*scores)[j] << endl;
                 }
-                game->seeBoard();
+            //    game->seeBoard();
                 game->destroyLine();
 
                 if(game->addShape()){
                     game->seeShape();
-                    game->seeBoard();
+                  //  game->seeBoard();
                 } else{
 //                    cout<<"Height is " << (*sons)[i].height<< endl;
 //                    cout<<"hole is " << (*sons)[i].hole<< endl;
@@ -210,8 +210,8 @@ private:
           int widthI = width(tempShape);
           int heightI = heightShape(tempShape);
           int start = Game::size - 1;
-          for(int j = start; j >=widthI - 1 ; --j){// line
-              for(int i = 9; i >=heightI - 1; --i){ //column
+          for(int j = 9; j >=widthI - 1 ; --j){// line
+              for(int i = start; i >=heightI - 1; --i){ //column
                   auto temp = board;
                   int move = i*10+j - max;
                   bool suc = true;
