@@ -14,7 +14,9 @@ void test() {
     int bR = 0;
     int cR = 0;
     int dR = 0;
-    for (int i = 0; i < 100; ++i) {
+    int times = 10;
+    for (int i = 0; i < times; ++i) {
+        cout<<i<<endl;
         int a = 79;// simple_rand() % 100;
         int b = 49; //simple_rand() % 100;
         int c = 3; //simple_rand() % 100;
@@ -29,26 +31,26 @@ void test() {
             dR = d;
         }
     }
-    ofstream myfile;
-    myfile.open("log.txt", std::fstream::app);
+    ofstream log;
+    log.open("log.txt", std::fstream::app);
     cout << endl;
     cout << endl;
     cout << endl;
     cout << endl;
     if (max > 500) {
-        myfile << "Max " << max << endl;
-        myfile << "Holes " << aR << endl;
-        myfile << "Height " << bR << endl;
-        myfile << "Columns " << cR << endl;
-        myfile << "Destroy " << dR << endl;
-        myfile << endl;
+        log << "Max " << max << endl;
+        log << "Holes " << aR << endl;
+        log << "Height " << bR << endl;
+        log << "Columns " << cR << endl;
+        log << "Destroy " << dR << endl;
+        log << endl;
         cout << "MAx " << max << endl;
         cout << "a " << aR << endl;
         cout << "b " << bR << endl;
         cout << "c " << cR << endl;
         cout << "d " << dR << endl;
     }
-    myfile.close();
+    log.close();
 }
 
 
