@@ -224,19 +224,19 @@ int AI::countColumns(array<bool, Game::size * 10> ar) {
             if (i == 0) {
                 if (ar.at(j + 1)) {
                     if (int(Game::size) - j / 10 > 3) {
-                        col += int(Game::size) - j / 10 - 3;
+                        col += int(Game::size) - j / 10 - 2;
                     }
                 }
             } else if (i == 9) {
                 if (ar.at(j - 1)) {
                     if (int(Game::size) - j / 10 > 3) {
-                        col += int(Game::size) - j / 10 - 3;
+                        col += int(Game::size) - j / 10 - 2;
                     }
                 }
             } else {
                 if (ar.at(j - 1) && ar.at(j + 1)) {
                     if (int(Game::size) - j / 10 > 3) {
-                        col += int(Game::size) - j / 10 - 3;
+                        col += int(Game::size) - j / 10 - 2;
                     }
                 }
             }
