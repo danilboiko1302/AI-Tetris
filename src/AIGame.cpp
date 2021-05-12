@@ -43,5 +43,6 @@ array<bool, Game::size * 10> AIGame::nextMoveDown() {
     }
     auto next = ar;
     ar = prev;
+    delete &prev;
     return next;
 }

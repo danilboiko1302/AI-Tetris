@@ -142,6 +142,7 @@ void Game::moveDown() {
     int *lines = new int(0);
     destroyLine(lines);
     score += (*lines);
+    delete lines;
 }
 
 
@@ -202,6 +203,7 @@ bool Game::addShape() {
     rand();
     rand();
     rand();
+    delete current;
     switch (rand() % 7) {
         case 0:
             current = new O();

@@ -8,28 +8,29 @@ void test() {
     //Game* a = new Game();
     // a->play();
     minstd_rand simple_rand;
-    simple_rand.seed(time(0));
+    simple_rand.seed(time(nullptr));
     unsigned long long max = 0;
-    int aR = 0;
-    int bR = 0;
-    int cR = 0;
-    int dR = 0;
-    int times = 10;
+    int holeRes = 0;
+    int heightRes = 0;
+    int columnsRes = 0;
+    int destroyRes = 0;
+    int times = 100; //don`t use more than 200
     for (int i = 0; i < times; ++i) {
         cout<<i<<endl;
-        int a = 79;// simple_rand() % 100;
-        int b = 49; //simple_rand() % 100;
-        int c = 3; //simple_rand() % 100;
-        int d = 96;//simple_rand() % 100;
-        AI *e = new AI(1, a, b, c, d, 0);
-        unsigned long long res = e->start();
+        int hole = 79;// simple_rand() % 100;
+        int height = 49; //simple_rand() % 100;
+        int columns = 3; //simple_rand() % 100;
+        int destroy = 96;//simple_rand() % 100;
+        AI *ai = new AI(1, hole, height, columns, destroy, 0);
+        unsigned long long res = ai->start();
         if (res > max) {
             max = res;
-            aR = a;
-            bR = b;
-            cR = c;
-            dR = d;
+            holeRes = hole;
+            heightRes = height;
+            columnsRes = columns;
+            destroyRes = destroy;
         }
+        delete ai;
     }
     ofstream log;
     log.open("log.txt", std::fstream::app);
@@ -39,16 +40,16 @@ void test() {
     cout << endl;
     if (max > 500) {
         log << "Max " << max << endl;
-        log << "Holes " << aR << endl;
-        log << "Height " << bR << endl;
-        log << "Columns " << cR << endl;
-        log << "Destroy " << dR << endl;
+        log << "Holes " << holeRes << endl;
+        log << "Height " << heightRes << endl;
+        log << "Columns " << columnsRes << endl;
+        log << "Destroy " << destroyRes << endl;
         log << endl;
-        cout << "MAx " << max << endl;
-        cout << "a " << aR << endl;
-        cout << "b " << bR << endl;
-        cout << "c " << cR << endl;
-        cout << "d " << dR << endl;
+        cout << "Max " << max << endl;
+        cout << "Holes " << holeRes << endl;
+        cout << "Height " << heightRes << endl;
+        cout << "Columns " << columnsRes << endl;
+        cout << "Destroy " << destroyRes << endl;
     }
     log.close();
 }

@@ -52,7 +52,8 @@ unsigned long long AI::sonsPlay() {
                     game->setBoard((*positionsBoard)[j]);
                     break;
                 }
-
+            delete positionsBoard;
+            delete scores;
             game->destroyLine();
             if (game->addShape()) {
                 game->seeShape();
@@ -62,6 +63,7 @@ unsigned long long AI::sonsPlay() {
                 break;
             }
         }
+        delete game;
     }
     //cout << "MAX Score is " << max << endl;
     return max;
