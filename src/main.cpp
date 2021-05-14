@@ -3,6 +3,7 @@
 #include <cstdlib>
 
 
+
 void test() {
     //Game* a = new Game();
     // a->play();
@@ -16,62 +17,48 @@ void test() {
     int heightRes = 0;
     int columnsRes = 0;
     int destroyRes = 0;
-    int level = 10;
     int times = 100; //don`t use more than 200
-    for (int a = 0; a < level; ++a) {
-        for (int b = 0; b < level; ++b) {
-            for (int c = 0; c < level; ++c) {
-                for (int d = 0; d < level; ++d) {
-                    for (int i = 0; i < times; ++i) {
-                        //      cout<<i<<endl;
+    for (int i = 0; i < times; ++i) {
+        cout<<i<<endl;
 //        int hole = 79;// simple_rand() % 100;
 //        int height = 49; //simple_rand() % 100;
 //        int columns = 3; //simple_rand() % 100;
 //        int destroy = 96;//simple_rand() % 100;
-//        int hole = 23;// simple_rand() % 100;
-//        int height = 18; //simple_rand() % 100;
-//        int columns = 2; //simple_rand() % 100;
-//        int destroy = 23;//simple_rand() % 100;
-                        int hole = a;// simple_rand() % 100;
-                        int height = b; //simple_rand() % 100;
-                        int columns = c; //simple_rand() % 100;
-                        int destroy = d;//simple_rand() % 100;
-                        AI *ai = new AI(1, hole, height, columns, destroy, 0, false);
-                        unsigned long res = ai->start();
-                        if (res > max) {
-                            max = res;
-                            holeRes = hole;
-                            heightRes = height;
-                            columnsRes = columns;
-                            destroyRes = destroy;
-                        }
-                        delete ai;
-                    }
-                    ofstream log;
-                    log.open("log.txt", std::fstream::app);
-                    cout << endl;
-                    cout << endl;
-                    cout << endl;
-                    cout << endl;
-                    if (max > 1000) {
-                        log << "Max " << max << endl;
-                        log << "Holes " << holeRes << endl;
-                        log << "Height " << heightRes << endl;
-                        log << "Columns " << columnsRes << endl;
-                        log << "Destroy " << destroyRes << endl;
-                        log << endl;
-                        cout << "Max " << max << endl;
-                        cout << "Holes " << holeRes << endl;
-                        cout << "Height " << heightRes << endl;
-                        cout << "Columns " << columnsRes << endl;
-                        cout << "Destroy " << destroyRes << endl;
-                    }
-                    log.close();
-                }
-            }
+        int hole = 23;// simple_rand() % 100;
+        int height = 18; //simple_rand() % 100;
+        int columns = 2; //simple_rand() % 100;
+        int destroy = 23;//simple_rand() % 100;
+        AI *ai = new AI(1, hole, height, columns, destroy, 0, false);
+        unsigned long res = ai->start();
+        if (res > max) {
+            max = res;
+            holeRes = hole;
+            heightRes = height;
+            columnsRes = columns;
+            destroyRes = destroy;
         }
+        delete ai;
     }
-
+    ofstream log;
+    log.open("log.txt", std::fstream::app);
+    cout << endl;
+    cout << endl;
+    cout << endl;
+    cout << endl;
+    if (max > 1000) {
+        log << "Max " << max << endl;
+        log << "Holes " << holeRes << endl;
+        log << "Height " << heightRes << endl;
+        log << "Columns " << columnsRes << endl;
+        log << "Destroy " << destroyRes << endl;
+        log << endl;
+        cout << "Max " << max << endl;
+        cout << "Holes " << holeRes << endl;
+        cout << "Height " << heightRes << endl;
+        cout << "Columns " << columnsRes << endl;
+        cout << "Destroy " << destroyRes << endl;
+    }
+    log.close();
 }
 
 
