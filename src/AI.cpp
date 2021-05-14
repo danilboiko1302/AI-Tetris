@@ -4,11 +4,12 @@
 
 #include "AI.h"
 
-AI::AI() : hole(50), height(50), moreThan3Holes(50), sonsAmount(50), destroy(50), step(50) {};
+AI::AI() : hole(50), height(50), moreThan3Holes(50), sonsAmount(50), destroy(50), step(50), simpleShapes(true) {};
 
 AI::AI(const int son, const int hole, const int height, const int moreThan3Holes, const int destroy,
-       const int step) :
-        hole(hole), height(height), moreThan3Holes(moreThan3Holes), sonsAmount(son), destroy(destroy), step(step) {
+       const int step, bool simple) :
+        hole(hole), height(height), moreThan3Holes(moreThan3Holes),
+        sonsAmount(son), destroy(destroy), step(step), simpleShapes(simple) {
 
 };
 
@@ -19,6 +20,7 @@ AI &AI::operator=(const AI &copy) {
     height = copy.height;
     moreThan3Holes = copy.moreThan3Holes;
     sonsAmount = copy.sonsAmount;
+    simpleShapes = copy.simpleShapes;
     destroy = copy.destroy;
     step = copy.step;
     return *this;
@@ -33,7 +35,7 @@ unsigned long long AI::sonsPlay() {
     unsigned long long max = 0;
 
     for (size_t i = 0; i < sons->sizes(); ++i) {
-        auto *game = new AIGame();
+        auto *game = new AIGame((*sons)[i].simpleShapes);
         game->play();
         while (true) {
             auto *positionsBoard = &allBoards(*(game->getShapeClass()), (game->getBoard()));
@@ -313,7 +315,7 @@ void AI::createSons() {
             newHoles = 1000;
         if (newDest > 1000)
             newDest = 1000;
-        sons->add(AI(newHole, newHeight, newHoles, newDest));
+        sons->add(AI(newHole, newHeight, newHoles, newDest, simpleShapes));
     }
 
 
@@ -332,14 +334,15 @@ void AI::show() const {
 AI::AI(const AI &copy) :
         hole(copy.hole), height(copy.height), moreThan3Holes(copy.moreThan3Holes), sonsAmount(copy.sonsAmount),
         destroy(copy.destroy),
-        step(copy.step) {
+        step(copy.step),
+        simpleShapes(copy.simpleShapes){
     sons = new Sequence<AI>(copy.sonsAmount);
     for (size_t i = 0; i < copy.sons->capacity(); ++i) {
         (*sons)[i] = (*(copy.sons))[i];
     }
 }
 
-AI::AI(const int hole, const int height, const int moreThan3Holes, const int dest) :
-        hole(hole), height(height), moreThan3Holes(moreThan3Holes), sonsAmount(0), destroy(dest), step(0) {
+AI::AI(const int hole, const int height, const int moreThan3Holes, const int dest, const bool simp) :
+        hole(hole), height(height), moreThan3Holes(moreThan3Holes), sonsAmount(0), destroy(dest), step(0), simpleShapes(simp) {
 
 };

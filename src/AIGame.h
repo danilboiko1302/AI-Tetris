@@ -9,6 +9,10 @@
 
 class AIGame : public Game {
 public:
+    ~AIGame();
+
+    explicit AIGame(bool);
+
     void play() override;
 
     array<bool, Game::size * 10> getBoard();
@@ -21,8 +25,19 @@ public:
 
     void destroyLine();
 
+    bool addShape() override;
+
+    bool simpleShapes;
+
     array<bool, Game::size * 10> nextMoveDown();
 
+    Sequence<char>* pieces;
+
+    Sequence<char>* pool;
+
+    Sequence<char>* history;
+
+    char chooseShape();
 };
 
 

@@ -6,7 +6,7 @@
 #define AI_TETRIS_AI_H
 
 #include "AIGame.h"
-#include "Sequence.h"
+
 #include <random>
 
 using namespace std;
@@ -15,19 +15,26 @@ class AI {
 public:
     AI();
 
-    explicit AI(int, int, int, int, int, int);
+    explicit AI(int, int, int, int, int, int, bool);
 
     AI &operator=(const AI &);
 
     unsigned long long start();
 
 private:
+
+    AI(const AI &);
+
+    AI(int, int, int, int, bool);
+
+
     int sonsAmount;
     int hole;
     int height;
     int moreThan3Holes;
     int step;
     int destroy;
+    bool simpleShapes;
     int score = 0;
 
     unsigned long long sonsPlay();
@@ -60,9 +67,7 @@ private:
 
     void show() const;
 
-    AI(const AI &);
 
-    AI(int, int, int, int);
 
     Sequence<AI> *sons = new Sequence<AI>;
 

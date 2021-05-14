@@ -197,6 +197,8 @@ void Game::seeShape() {
 }
 
 
+
+
 bool Game::addShape() {
     rand();
     rand();

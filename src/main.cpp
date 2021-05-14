@@ -21,7 +21,7 @@ void test() {
         int height = 49; //simple_rand() % 100;
         int columns = 3; //simple_rand() % 100;
         int destroy = 96;//simple_rand() % 100;
-        AI *ai = new AI(1, hole, height, columns, destroy, 0);
+        AI *ai = new AI(1, hole, height, columns, destroy, 0, false);
         unsigned long long res = ai->start();
         if (res > max) {
             max = res;
@@ -38,7 +38,7 @@ void test() {
     cout << endl;
     cout << endl;
     cout << endl;
-    if (max > 500) {
+    if (max > 1000) {
         log << "Max " << max << endl;
         log << "Holes " << holeRes << endl;
         log << "Height " << heightRes << endl;

@@ -6,7 +6,7 @@
 #define AI_TETRIS_GAME_H
 
 #include "Shape.h"
-
+#include "Sequence.h"
 #include<iostream>
 #include <random>
 #include <ctime>
@@ -48,7 +48,8 @@ public:
     void seeShape();
 
 
-    bool addShape();
+    virtual bool addShape();
+
 
     static constexpr unsigned int size = 20;
 
@@ -59,6 +60,10 @@ protected:
 
     array<bool, (size * 10)> ar;
     array<int, 4> *currentArr{};
+
+
+
+
 };
 
 
