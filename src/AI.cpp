@@ -26,13 +26,13 @@ AI &AI::operator=(const AI &copy) {
     return *this;
 };
 
-unsigned long long AI::start() {
+unsigned long AI::start() {
     createSons();
     return sonsPlay();
 }
 
-unsigned long long AI::sonsPlay() {
-    unsigned long long max = 0;
+unsigned long AI::sonsPlay() {
+    unsigned long max = 0;
 
     for (size_t i = 0; i < sons->sizes(); ++i) {
         auto *game = new AIGame((*sons)[i].simpleShapes);

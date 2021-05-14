@@ -9,7 +9,7 @@ void test() {
     // a->play();
     minstd_rand simple_rand;
     simple_rand.seed(time(nullptr));
-    unsigned long long max = 0;
+    unsigned long max = 0;
     int holeRes = 0;
     int heightRes = 0;
     int columnsRes = 0;
@@ -22,7 +22,7 @@ void test() {
         int columns = 3; //simple_rand() % 100;
         int destroy = 96;//simple_rand() % 100;
         AI *ai = new AI(1, hole, height, columns, destroy, 0, false);
-        unsigned long long res = ai->start();
+        unsigned long res = ai->start();
         if (res > max) {
             max = res;
             holeRes = hole;

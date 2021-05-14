@@ -19,7 +19,7 @@ public:
 
     AI &operator=(const AI &);
 
-    unsigned long long start();
+    unsigned long start();
 
 private:
 
@@ -35,9 +35,9 @@ private:
     int step;
     int destroy;
     bool simpleShapes;
-    int score = 0;
+    unsigned long score = 0;
 
-    unsigned long long sonsPlay();
+    unsigned long sonsPlay();
 
     static Sequence<array<bool, Game::size * 10>> &allBoards(Shape &, array<bool, Game::size * 10>);
 

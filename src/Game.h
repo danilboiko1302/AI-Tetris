@@ -53,7 +53,7 @@ public:
 
     static constexpr unsigned int size = 20;
 
-    unsigned long long score = 0;
+    unsigned long score = 0;
 
     Shape *current{};
 protected:
