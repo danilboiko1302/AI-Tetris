@@ -4,15 +4,20 @@
 
 #include "AI.h"
 
-AI::AI() : hole(50), height(50), moreThan3Holes(50), sonsAmount(50), destroy(50), step(50), simpleShapes(true) {};
+AI::AI() : hole(50), height(50), moreThan3Holes(50), sonsAmount(50), destroy(50), step(50), simpleShapes(true), level(0) {};
 
 AI::AI(const int son, const int hole, const int height, const int moreThan3Holes, const int destroy,
-       const int step, bool simple) :
+       const int step, bool simple ) :
         hole(hole), height(height), moreThan3Holes(moreThan3Holes),
+        sonsAmount(son), destroy(destroy), step(step), simpleShapes(simple), level(0) {
+
+};
+AI::AI(const int son, const int hole, const int height, const int moreThan3Holes, const int destroy,
+       const int step, bool simple, int level ) :
+        hole(hole), height(height), moreThan3Holes(moreThan3Holes), level(level),
         sonsAmount(son), destroy(destroy), step(step), simpleShapes(simple) {
 
 };
-
 AI &AI::operator=(const AI &copy) {
     if (this == &copy)
         return *this;
@@ -21,6 +26,7 @@ AI &AI::operator=(const AI &copy) {
     moreThan3Holes = copy.moreThan3Holes;
     sonsAmount = copy.sonsAmount;
     simpleShapes = copy.simpleShapes;
+    level = copy.level;
     destroy = copy.destroy;
     step = copy.step;
     return *this;
@@ -32,8 +38,22 @@ unsigned long AI::start() {
 }
 
 unsigned long AI::sonsPlay() {
+    ofstream sonsLog;
+    sonsLog.open("sonsLog.txt", std::fstream::app);
+    sonsLog << "----------------------------"<< endl;
+    sonsLog << "Father:"<< endl;
+    sonsLog << "Level:" << level << endl;
+    sonsLog << "Holes " << hole << endl;
+    sonsLog << "Height " << height << endl;
+    sonsLog << "Columns " << moreThan3Holes << endl;
+    sonsLog << "Destroy " << destroy << endl;
+    sonsLog << endl;
+    sonsLog.close();
     unsigned long max = 0;
-
+    int holeRes = 0;
+    int heightRes = 0;
+    int columnsRes = 0;
+    int destroyRes = 0;
     for (size_t i = 0; i < sons->sizes(); ++i) {
         auto *game = new AIGame((*sons)[i].simpleShapes);
         game->play();
@@ -60,16 +80,43 @@ unsigned long AI::sonsPlay() {
             if (game->addShape()) {
                 game->seeShape();
             } else {
-                if (game->score > max)
+                if (game->score > max){
                     max = game->score;
+                    holeRes = (*sons)[i].hole;
+                    heightRes = (*sons)[i].height;
+                    columnsRes = (*sons)[i].moreThan3Holes;
+                    destroyRes = (*sons)[i].destroy;
+                }
+                {
+
+                    sonsLog.open("sonsLog.txt", std::fstream::app);
+                    sonsLog << "Son: "<<i<< endl;
+                    sonsLog << "Level:" << level << endl;
+                    sonsLog << "Score:  "<<game->score<< endl;
+                    sonsLog << "Holes " << (*sons)[i].hole << endl;
+                    sonsLog << "Height " << (*sons)[i].height << endl;
+                    sonsLog << "Columns " << (*sons)[i].moreThan3Holes << endl;
+                    sonsLog << "Destroy " << (*sons)[i].destroy << endl;
+                    sonsLog << endl;
+                    sonsLog.close();
+                }
                 break;
             }
         }
         delete game;
     }
     //cout << "MAX Score is " << max << endl;
+//    cout << "Max " << max << endl;
+//    cout << "Holes " << holeRes << endl;
+//    cout << "Height " << heightRes << endl;
+//    cout << "Columns " << columnsRes << endl;
+//    cout << "Destroy " << destroyRes << endl;
+    //AI *ai = new AI(this->sonsAmount, holeRes, heightRes, columnsRes, destroyRes, this->step, false, level + 10);
+    //return ai->start();
     return max;
 }
+
+
 
 Sequence<array<bool, Game::size * 10>> &AI::allBoards(Shape &shape, array<bool, Game::size * 10> board) {
     auto *test = new Sequence<array<bool, Game::size * 10>>;
@@ -335,7 +382,8 @@ AI::AI(const AI &copy) :
         hole(copy.hole), height(copy.height), moreThan3Holes(copy.moreThan3Holes), sonsAmount(copy.sonsAmount),
         destroy(copy.destroy),
         step(copy.step),
-        simpleShapes(copy.simpleShapes){
+        simpleShapes(copy.simpleShapes),
+        level(copy.level){
     sons = new Sequence<AI>(copy.sonsAmount);
     for (size_t i = 0; i < copy.sons->capacity(); ++i) {
         (*sons)[i] = (*(copy.sons))[i];
@@ -345,4 +393,7 @@ AI::AI(const AI &copy) :
 AI::AI(const int hole, const int height, const int moreThan3Holes, const int dest, const bool simp) :
         hole(hole), height(height), moreThan3Holes(moreThan3Holes), sonsAmount(0), destroy(dest), step(0), simpleShapes(simp) {
 
-};
+}
+
+
+

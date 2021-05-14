@@ -1,12 +1,15 @@
 #include <iostream>
 #include "AI.h"
 #include <cstdlib>
-#include <fstream>
+
 
 
 void test() {
     //Game* a = new Game();
     // a->play();
+    ofstream sonsLog;
+    sonsLog.open("sonsLog.txt");
+    sonsLog.close();
     minstd_rand simple_rand;
     simple_rand.seed(time(nullptr));
     unsigned long max = 0;
@@ -17,10 +20,14 @@ void test() {
     int times = 100; //don`t use more than 200
     for (int i = 0; i < times; ++i) {
         cout<<i<<endl;
-        int hole = 79;// simple_rand() % 100;
-        int height = 49; //simple_rand() % 100;
-        int columns = 3; //simple_rand() % 100;
-        int destroy = 96;//simple_rand() % 100;
+//        int hole = 79;// simple_rand() % 100;
+//        int height = 49; //simple_rand() % 100;
+//        int columns = 3; //simple_rand() % 100;
+//        int destroy = 96;//simple_rand() % 100;
+        int hole = 23;// simple_rand() % 100;
+        int height = 18; //simple_rand() % 100;
+        int columns = 2; //simple_rand() % 100;
+        int destroy = 23;//simple_rand() % 100;
         AI *ai = new AI(1, hole, height, columns, destroy, 0, false);
         unsigned long res = ai->start();
         if (res > max) {

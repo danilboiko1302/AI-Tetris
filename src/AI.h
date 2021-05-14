@@ -6,7 +6,7 @@
 #define AI_TETRIS_AI_H
 
 #include "AIGame.h"
-
+#include <fstream>
 #include <random>
 
 using namespace std;
@@ -27,6 +27,8 @@ private:
 
     AI(int, int, int, int, bool);
 
+    AI(int, int, int, int, int, int, bool, int);
+
 
     int sonsAmount;
     int hole;
@@ -34,6 +36,7 @@ private:
     int moreThan3Holes;
     int step;
     int destroy;
+    int level;
     bool simpleShapes;
     unsigned long score = 0;
 
